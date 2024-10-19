@@ -1,0 +1,22 @@
+.carouselContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+    z-index: 1;
+}
+
+#searchFormContainer {
+    position: absolute;
+    top: 50%;
+    left: 35%;
+    width: 70vh;
+    height: 75px;
+    z-index: 2;
+}
+
+.container-md {
+    padding-top: 30%;
+}
