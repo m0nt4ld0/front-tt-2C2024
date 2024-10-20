@@ -1,0 +1,58 @@
+:root {
+    --violeta-oscuro: #25064D;
+    --violeta-claro: #6911DA;
+    --rosado: #D3435D;
+    --amarillo: #D0853A;
+    --azul: #073ED1;
+}
+
+/* *** Carousel **** */
+
+.carouselContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+    z-index: 1;
+}
+
+#searchFormContainer {
+    position: absolute;
+    top: 50%;
+    left: 35%;
+    width: 70vh;
+    height: 75px;
+    z-index: 2;
+}
+
+/* *** Otras secciones **** */
+
+.container-md {
+    padding-top: 30%;
+}
+
+/* *** Botones **** */
+
+.btn-primary {
+    border-color: var(--violeta-oscuro);
+    background-color: var(--violeta-oscuro);
+}
+
+.btn-secondary {
+    border-color: var(--violeta-claro);
+    background-color: var(--violeta-claro);
+}
+
+.btn-info {
+    border-color: var(--rosado);
+    background-color: var(--rosado);
+    color:white;
+}
+
+.btn-warning {
+    border-color: var(--amarillo);
+    background-color: var(--amarillo);
+    color:white;
+}
