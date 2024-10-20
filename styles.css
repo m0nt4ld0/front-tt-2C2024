@@ -1,3 +1,13 @@
+:root {
+    --violeta-oscuro: #25064D;
+    --violeta-claro: #6911DA;
+    --rosado: #D3435D;
+    --amarillo: #D0853A;
+    --azul: #073ED1;
+}
+
+/* *** Carousel **** */
+
 .carouselContainer {
     position: absolute;
     top: 0;
@@ -17,6 +27,32 @@
     z-index: 2;
 }
 
+/* *** Otras secciones **** */
+
 .container-md {
     padding-top: 30%;
+}
+
+/* *** Botones **** */
+
+.btn-primary {
+    border-color: var(--violeta-oscuro);
+    background-color: var(--violeta-oscuro);
+}
+
+.btn-secondary {
+    border-color: var(--violeta-claro);
+    background-color: var(--violeta-claro);
+}
+
+.btn-info {
+    border-color: var(--rosado);
+    background-color: var(--rosado);
+    color:white;
+}
+
+.btn-warning {
+    border-color: var(--amarillo);
+    background-color: var(--amarillo);
+    color:white;
 }
