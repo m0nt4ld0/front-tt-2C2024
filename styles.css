@@ -6,17 +6,16 @@
     --azul: #073ED1;
 }
 
-/* *** Carousel **** */
-
-.carouselContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: lightblue;
-    z-index: 1;
+body {
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,0.9514180672268907) 100%);
+    overflow-x: hidden;
 }
+
+h3 {
+    color: var(--violeta-oscuro);
+}
+/* *** Carousel **** */
 
 #searchFormContainer {
     position: absolute;
@@ -30,8 +29,54 @@
 /* *** Otras secciones **** */
 
 .container-md {
+    background-color: #fff;
     padding-top: 30%;
+    padding-bottom: 1rem;
 }
+
+.footer {
+    background-color: var(--violeta-oscuro);
+    color:white;
+    padding-bottom: 1rem;
+    width: 100%;
+    height:10rem;
+}
+
+/* *** Uso de Media Queries - Seccion contacto **** */
+@media screen and (max-width: 992px) {
+    #contact {
+      width: 50%;
+    }
+    /*.card .mb-2 {
+        width: 45rem;
+    }*/
+}
+  
+@media screen and (max-width: 600px) {
+    #contact {
+      width: 100%;
+    }
+    /*.card .mb-2 {
+        width: 15rem;
+    }*/
+}
+
+/* *** Seccion productos - Grid **** */
+.grid-products-container {
+    display: grid;
+}
+
+.grid-product {
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+/* *** Tarjetas **** */
+.card {
+    width: 13rem;
+    margin-left: 1rem;
+}
+
 
 /* *** Botones **** */
 

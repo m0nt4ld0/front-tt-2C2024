@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
+    <!-- Meta tag para activar responsividad en dispositivos mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css" />
@@ -15,7 +16,7 @@
     </nav>
     <main>
         <!-- Carousel con fotos de los destinos y un buscador justo en el centro de las fotos -->
-        <div class="container-md">
+        <div class="container-fluid">
             <section id="search">
                 <div class="mx-auto p-2" id="searchFormContainer">
                     <form>
@@ -58,91 +59,87 @@
                 </div>
             </section>
         </div>
-        <!-- Espacio entre secciones -->
-        <div class="grid gap-1">
-            <div class="p-2 g-col-6"></div>
-        </div>
         <div class="container-md">
             <!-- Paquetes turisticos -->
             <section id="products">
-                <div class="row">
-                    <!-- Buzios -->
-                    <div class="col-sm-4 mb-2 mb-sm-0">
-                        <div class="card" style="width: 18rem;">
-                            <img src="./imgs/destinations/buzios.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Buzios</h5>
-                                <p class="card-text">Este encantador destino en Brasil es famoso por sus hermosas playas, aguas cristalinas y su atmósfera relajada de pueblo pesquero con toques de lujo.</p>
-                                <a href="#" class="btn btn-warning">Ir a Buzios</a>
+                <div class="grid-products-container">
+                    <div class="grid-product">
+                        <!-- Buzios -->
+                        <div class="col-sm-4 mb-2 mb-sm-0">
+                            <div class="card">
+                                <img src="./imgs/destinations/buzios.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Buzios</h5>
+                                    <p class="card-text">Este encantador destino en Brasil es famoso por sus hermosas playas, aguas cristalinas y su atmósfera relajada de pueblo pesquero con toques de lujo.</p>
+                                    <a href="#" class="btn btn-warning">Ir a Buzios</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Mexico -->
-                    <div class="col-sm-4 mb-2 mb-sm-0">
-                        <div class="card" style="width: 18rem;">
-                            <img src="./imgs/destinations/mexico.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Mexico</h5>
-                                <p class="card-text">Un país vibrante con una rica cultura, historia ancestral y playas paradisíacas, ideal para explorar desde las ruinas mayas hasta modernas ciudades cosmopolitas.</p>
-                                <a href="#" class="btn btn-info">Ir a Mexico</a>
+                    <div class="grid-product">
+                        <!-- Mexico -->
+                        <div class="col-sm-4 mb-2 mb-sm-0">
+                            <div class="card">
+                                <img src="./imgs/destinations/mexico.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Mexico</h5>
+                                    <p class="card-text">Un país vibrante con una rica cultura, historia ancestral y playas paradisíacas, ideal para explorar desde las ruinas mayas hasta modernas ciudades cosmopolitas.</p>
+                                    <a href="#" class="btn btn-info">Ir a Mexico</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Perú -->
-                    <div class="col-sm-4 mb-2 mb-sm-0">
-                        <div class="card" style="width: 18rem;">
-                            <img src="./imgs/destinations/MachuPicchu.jpg" class="card-img-top" alt="Viajá con nosotros a Perú">
-                            <div class="card-body">
-                                <h5 class="card-title">Perú</h5>
-                                <p class="card-text">Hogar de la majestuosa ciudadela de Machu Picchu, ofrece una combinación única de historia inca, paisajes andinos y selva amazónica.</p>
-                                <a href="#" class="btn btn-secondary">Ir a Perú</a>
+                    <div class="grid-product">
+                        <!-- Perú -->
+                        <div class="col-sm-4 mb-2 mb-sm-0">
+                            <div class="card">
+                                <img src="./imgs/destinations/MachuPicchu.jpg" class="card-img-top" alt="Viajá con nosotros a Perú">
+                                <div class="card-body">
+                                    <h5 class="card-title">Perú</h5>
+                                    <p class="card-text">Hogar de la majestuosa ciudadela de Machu Picchu, ofrece una combinación única de historia inca, paisajes andinos y selva amazónica.</p>
+                                    <a href="#" class="btn btn-secondary">Ir a Perú</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- Espacio entre secciones -->
-            <div class="grid gap-1">
-                <div class="p-2 g-col-6"></div>
-            </div>
-            <!-- Espacio entre secciones -->
-            <div class="grid gap-1">
-                <div class="p-2 g-col-6"></div>
-            </div>
             <!-- Opiniones -->
             <div class="row">
                 <h3>¡Contanos tu experiencia!</h3>
-                <!-- Cliente 1 -->
-                <div class="card mb-2" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="./imgs/reviews/familia.jpg" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                            <h5 class="card-title">Espectacular</h5>
-                            <p class="card-text">Viajamos en familia de 4 integrantes con dos niños pequeños, y <b>Vuela Vuela</b> estuvo para asistirnos en todo momento, brindando una excelente atención, además de la destacable calidad del servicio.</p>
-                            <p class="card-text">
-                                <small class="text-body-secondary">Hace 3 minutos</small></p>
+                <div class="col-md-6">
+                    <!-- Cliente 1 -->
+                    <div class="card w-100">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <img src="./imgs/reviews/familia.jpg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                <h5 class="card-title">Espectacular</h5>
+                                <p class="card-text">Viajamos en familia de 4 integrantes con dos niños pequeños, y <b>Vuela Vuela</b> estuvo para asistirnos en todo momento, brindando una excelente atención, además de la destacable calidad del servicio.</p>
+                                <p class="card-text">
+                                    <small class="text-body-secondary">Hace 3 minutos</small></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Separador -->
-                <div class="col"></div>
-                <!-- Cliente 2 -->
-                <div class="card mb-2" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="./imgs/reviews/Peru.png" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                            <h5 class="card-title">Inolvidable</h5>
-                            <p class="card-text">Viajé solo pero en ningún momento del viaje me aburrí ni me sentí solo. <b>Vuela Vuela</b> se ocupó de planificar divertidas actividades que me llevaron a hacer mil amigos de diferentes partes del mundo.</p>
-                            <p class="card-text">
-                                    <small class="text-body-secondary">18 de octubre de 2023</small>
-                            </p>
+                <div class="col-md-6">
+                    <!-- Cliente 2 -->
+                    <div class="card w-100">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <img src="./imgs/reviews/Peru.png" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                <h5 class="card-title">Inolvidable</h5>
+                                <p class="card-text">Viajé solo pero en ningún momento del viaje me aburrí ni me sentí solo. <b>Vuela Vuela</b> se ocupó de planificar divertidas actividades que me llevaron a hacer mil amigos de diferentes partes del mundo.</p>
+                                <p class="card-text">
+                                        <small class="text-body-secondary">18 de octubre de 2023</small>
+                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,20 +154,29 @@
                 <h3>Dejanos tu consulta</h3>
                 <form>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Tu nombre</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="nameInputText" class="form-label">Tu nombre</label>
+                        <input type="text" class="form-control" id="nameInputText" aria-describedby="nameHelp">
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Tu correo electrónico</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                      <label for="inputEmail" class="form-label">Tu correo electrónico</label>
+                      <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
                       <div id="emailHelp" class="form-text">Vuela Vuela no comparte tu información con nadie.</div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="5" id="txtAreaComment"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
                   </form>
             </section>
         </div>
     </main>
-    <footer>
-    </footer>
+    <div class="position-relative">
+        <footer class="footer position-absolute top-100 start-50 translate-middle">  
+            <!-- Social Media - Iconos -->
+            <h1>Hola mundo</h1>
+        </footer>
+    </div>
 </body>
 </html>
