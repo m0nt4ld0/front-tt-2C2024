@@ -45,34 +45,36 @@
     <main class="container-fluid">
         <!-- Form de búsqueda -->
         <div class="formBusqueda">
-            <div class="row g-2 align-items-center">
-                <div class="col" style="float: left; margin-left: 1vw; margin-bottom: 1vw;">
-                    <div id="logo"></div>
-                    <img src="./icons/icons8-plane-64.png" class="circulo" style="background-color: var(--rosado);" />
-                    <img src="./icons/icons8-suitcase-64.png" class="circulo" style="background-color: var(--anaranjado);" />
-                    <img src="./icons/icons8-building-80.png" class="circulo" style="background-color: var(--azul);" />
+            <form>
+                <div class="row g-2 align-items-center">
+                    <div class="col" style="float: left; margin-left: 1vw; margin-bottom: 1vw;">
+                        <div id="logo">
+                            <h3 style="color:white;">Vuela Vuela</h3>
+                        </div>
+                        <img src="./icons/icons8-plane-64.png" class="circulo" style="background-color: var(--rosado);" />
+                        <img src="./icons/icons8-suitcase-64.png" class="circulo" style="background-color: var(--anaranjado);" />
+                        <img src="./icons/icons8-building-80.png" class="circulo" style="background-color: var(--azul);" />
+                    </div>
                 </div>
-            </div>
-            <div class="row g-2 align-items-center">
-                <form>
-                    <div class="col" style="float: left; margin-left: 1vw;">
-                        <select class="form-select" aria-label="Origen" id="origen" style="width: 15vw;">
+                <div class="row g-2 align-items-center">
+                    <div class="col">
+                        <select class="form-select" aria-label="Origen" id="origen">
                             <option selected>Origen</option>
                             <option value="1">Buenos Aires - Ezeiza</option>
                             <option value="2">Buenos Aires - Aeroparque</option>
                             <option value="3">Buenos Aires - El Palomar</option>
                         </select>
                     </div>
-                    <div class="col" style="float: left; margin-left: 1vw;">
-                        <select class="form-select" aria-label="Destino" id="destino" style="width: 15vw;">
+                    <div class="col">
+                        <select class="form-select" aria-label="Destino" id="destino">
                             <option selected>Destino</option>
                             <option value="1">Córdoba</option>
                             <option value="2">Mendoza</option>
                             <option value="3">Iguaz</option>
                         </select>
                     </div>
-                    <div class="col" style="float: left; margin-left: 1vw;">
-                        <select class="form-select" aria-label="Cantidad de pasajeros" id="cpasajeros" style="width: 15vw;">
+                    <div class="col">
+                        <select class="form-select" aria-label="Cantidad de pasajeros" id="cpasajeros">
                             <option selected>Pasajeros</option>
                             <option value="1">1 Pasajero</option>
                             <option value="2">2 Pasajeros</option>
@@ -80,14 +82,16 @@
                             <option value="4">4 Pasajeros</option>
                         </select>
                     </div>
-                    <div class="col" style="float: left; margin-left: 1vw;">
+                    <div class="col">
                         <input type="date" id="birthday" name="birthday">
                     </div>
-                    <div class="col" style="float: left; margin-left: 1vw;">
+                </div>
+                <div class="row g-2 align-items-center">
+                    <div class="col">
                         <button type="button" class="btn btn-primary" style="height: 6vh;">¡Vamos!</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
         <!-- Carousel-->
         <div class="mainCarousel">

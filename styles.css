@@ -66,8 +66,8 @@
 
 /** ****** FORM DE BUSQUEDA ****** **/
 #logo {
-    width: 350px;
-    height: 125px;
+    width: 5vw;/*350px;*/
+    height: 1vh;/*125px;*/
     border: 1px solid white;
     float: left;
 }
@@ -75,9 +75,18 @@
 .formBusqueda {
     position: absolute;
     z-index: 50;
-    padding-top: 25vh; /* Va a tener que cambiar segun tamaño de pantalla */
+    padding-top: 25vh;
     padding-left: 10vw;
     width: 100vw;
+}
+
+.formBusqueda > form > .row.g-2.align-items-center {
+    width: 75vw; /* Limita el tamaño de las rows dentro de formBusqueda */
+}
+
+.formBusqueda > form > .row.g-2.align-items-center > .col {
+    float: left; 
+    margin-left: 1vw;
 }
 
 .circulo {
@@ -89,10 +98,42 @@
     margin-left: 2vw;
 }
 
+.form-select {
+    width: 15vw;
+    color: var(--violeta-oscuro);
+}
+
+input[type="date"] {
+    color: var(--violeta-oscuro);
+    width: 15vw;
+}
+
 .btn-primary {
     background-color: var(--violeta-oscuro);
     border: 1px solid var(--violeta-oscuro);
 }
+
+/* Para compatibilidad con pantallas de 430px o mas */
+@media screen and (min-width: 430px) {
+    body {
+      color: var(--violeta-oscuro);
+    }
+  }
+  
+  /* Para compatibilidad con pantallas de 430px o menos
+     Si la pantalla es chica, el form de busqueda se vuelve vertical */
+  @media screen and (max-width: 430px) {
+    .formBusqueda {
+        padding-top: 10vh; 
+        width: 100vw;
+    }    
+    /*#logo {
+        width: 350px;
+        height: 125px;
+        border: 1px solid white;
+        float: left;
+    }*/
+  }
 
 /** ****** CONTENIDO PPAL ****** **/
 .container-fluid {
