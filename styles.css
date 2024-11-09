@@ -221,3 +221,27 @@ input[type="date"] {
     font-size: 10px;
     padding: 10px;
 }
+
+/** ****** SCROLLBAR ****** **/
+
+::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: var(--violeta-oscuro);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--violeta-oscuro);
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--violeta-oscuro);
+  }
+
+  html {
+    scrollbar-color: var(--blanco) var(--violeta-oscuro);
+  }
+  
