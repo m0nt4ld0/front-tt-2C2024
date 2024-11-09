@@ -25,6 +25,7 @@
     <link 
         rel="stylesheet" 
         href="styles.css" />
+    <link rel="icon" type="image/png" href="./imgs/logo/favicon.png" sizes="32x32">
     <title>Vuela Vuela | Estás a un click de tu próximo destino</title>
 </head>
 <body>
@@ -62,66 +63,113 @@
     <main class="container-fluid">
         <!-- Form de búsqueda -->
         <div class="formBusqueda">
-            <form>
+            <form id="search">
                 <div class="row g-2 align-items-center">
                     <div 
                         class="col">
                         <div class="d-flex justify-content-center align-items-center">
-                            <img 
-                            src="./icons/icons8-plane-64.png" 
-                            class="circulo" 
-                            style="background-color: var(--rosado);" />
-                            <img 
-                                src="./icons/icons8-suitcase-64.png" 
-                                class="circulo" 
-                                style="background-color: var(--anaranjado);" />
-                            <img 
-                                src="./icons/icons8-building-80.png" 
-                                class="circulo" 
-                                style="background-color: var(--azul);" />
+                            <div style="background-color: white; border-radius: 50%;">
+                                <img src="./imgs/logo/logo.png" id="logo" alt="Tu próximo destino a un clic"/>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row g-2 align-items-center">
-                    <div class="col">
-                        <select 
-                            class="form-select" 
-                            aria-label="Origen" 
-                            id="origen">
-                            <option selected>Origen</option>
-                            <option value="1">Buenos Aires - Ezeiza</option>
-                            <option value="2">Buenos Aires - Aeroparque</option>
-                            <option value="3">Buenos Aires - El Palomar</option>
-                        </select>
-                        <select 
-                            class="form-select" 
-                            aria-label="Destino" 
-                            id="destino">
-                            <option selected>Destino</option>
-                            <option value="1">Córdoba</option>
-                            <option value="2">Mendoza</option>
-                            <option value="3">Iguazu</option>
-                        </select>
-                        <select class="form-select" aria-label="Cantidad de pasajeros" id="cpasajeros">
-                            <option selected>Pasajeros</option>
-                            <option value="1">1 Pasajero</option>
-                            <option value="2">2 Pasajeros</option>
-                            <option value="3">3 Pasajeros</option>
-                            <option value="4">4 Pasajeros</option>
-                        </select>
-                        <input 
-                            type="date" 
-                            id="fechasViaje" 
-                            name="fechasViaje">
-                        <button 
-                            type="button" 
-                            class="btn btn-primary">¡Vamos!</button>
-                    </div>
-                </div>
-                <div class="row g-2 align-items-center">
-                    <div class="col">
-                        
-                    </div>
+                    <div class="card mb-3" style="max-width: 70vw; margin-top: 5vh;">
+                        <div class="row g-0">
+                          <div class="col-md-8">
+                            <div class="card-body">
+                             <!-- Radio buttons -->
+                                <div class="form-check form-check-inline">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="radio" 
+                                        name="busquedaRadio" 
+                                        id="vuelosRadio" checked>
+                                    <label 
+                                        class="form-check-label" 
+                                        for="vuelosRadio">
+                                        Vuelos
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="radio" 
+                                        name="busquedaRadio" 
+                                        id="hotelesRadio">
+                                    <label 
+                                        class="form-check-label" 
+                                        for="hotelesRadio">
+                                        Hoteles
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="radio" 
+                                        name="busquedaRadio" 
+                                        id="paquetesRadio">
+                                    <label 
+                                        class="form-check-label" 
+                                        for="paquetesRadio">
+                                        Paquetes
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="radio" 
+                                        name="busquedaRadio" 
+                                        id="actividadesRadio">
+                                    <label 
+                                        class="form-check-label" 
+                                        for="actividadesRadio">
+                                        Actividades
+                                    </label>
+                                </div>
+                                
+                                <!-- Form -->
+                                <div class="row g-2 align-items-center">
+                                    <div class="col">                                      
+                                        <select 
+                                            class="form-select" 
+                                            aria-label="Origen" 
+                                            id="origen">
+                                            <option selected>Origen</option>
+                                            <option value="1">Buenos Aires - Ezeiza</option>
+                                            <option value="2">Buenos Aires - Aeroparque</option>
+                                            <option value="3">Buenos Aires - El Palomar</option>
+                                        </select>
+                                        <select 
+                                            class="form-select" 
+                                            aria-label="Destino" 
+                                            id="destino">
+                                            <option selected>Destino</option>
+                                            <option value="1">Córdoba</option>
+                                            <option value="2">Mendoza</option>
+                                            <option value="3">Iguazu</option>
+                                        </select>
+                                        <select class="form-select" aria-label="Cantidad de pasajeros" id="cpasajeros">
+                                            <option selected>Pasajeros</option>
+                                            <option value="1">1 Pasajero</option>
+                                            <option value="2">2 Pasajeros</option>
+                                            <option value="3">3 Pasajeros</option>
+                                            <option value="4">4 Pasajeros</option>
+                                        </select>
+                                        <input 
+                                            type="date" 
+                                            id="fechasViaje" 
+                                            name="fechasViaje">
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-primary">¡Vamos!</button>  
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                 </div>
             </form>
         </div>
@@ -161,5 +209,7 @@
             </footer>
         </div>
     </main>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

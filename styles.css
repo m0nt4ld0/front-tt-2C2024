@@ -4,6 +4,7 @@
     --rosado: #D3435D;
     --anaranjado: #D0853A;
     --azul: #073ED1;
+    --blanco: #F5F7F9;
 }
 
 * {
@@ -63,27 +64,21 @@ body, html {
     height: 20vh;
     align-items: center;
     justify-content: center;
-    color: white;
     text-align: center;
-    border: 1px solid var(--violeta-claro);
     z-index: 1;
     position: absolute;
 }
 
 /** ****** FORM DE BUSQUEDA ****** **/
 #logo {
-    width: 5vw; /*350px;*/
-    height: 1vh; /*125px;*/
-    border: 1px solid white;
-    float: left;
+    height: 30vh;
 }
 
 .formBusqueda {
     position: absolute;
     z-index: 50;
-    padding-top: 25vh;
-    padding-left: 10vw;
-    width: 100vw;
+    padding-top: 15vh;
+    padding-left: 15vw;
 }
 
 .formBusqueda > form > .row.g-2.align-items-center {
@@ -117,30 +112,21 @@ input[type="date"] {
       color: var(--violeta-oscuro);
     }
     
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .form-select {
+    .row.g-2.align-items-center > .col > .form-select {
         float:left;
         margin-left: 1vw;
-        width: 10vw;
+        width: 7vw;
     }
     
-    .formBusqueda > form > .row.g-2.align-items-center > .col > input[type="date"] {
+    .row.g-2.align-items-center > .col > input[type="date"] {
         float:left;
         margin-left: 1vw;
-        width: 10vw;
+        width: 7vw;
         height: 4vh;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .btn.btn-primary {
-        width: 10vw;
-        margin-left: 1vw;
-    }
-
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center {
-        height: 30vh; /* style="height: 30vh;"*/
-    }
-    
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center > .circulo {
-        width: 4vw;
+    .row.g-2.align-items-center > .col > .btn.btn-primary {
+        width: 7vw;
         margin-left: 1vw;
     }
 
@@ -163,47 +149,48 @@ input[type="date"] {
     }
 
     .formBusqueda {
-        padding-top: 10vh; 
+        padding-top: 15vh; 
         width: 100vw;
     }
     
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .form-select {
+    .row.g-2.align-items-center > .col > .form-select {
         float: left; 
         margin-bottom: 1vw;
-        width: 70vw;
+        width: 60vw;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > input[type="date"] {
+    .row.g-2.align-items-center > .col > input[type="date"] {
         float: left; 
         margin-bottom: 1vw;
-        width: 70vw;
+        width: 60vw;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .btn.btn-primary {
+    .row.g-2.align-items-center > .col > .btn.btn-primary {
         float: left; 
         margin-bottom: 1vw;
-        width: 70vw;
+        width: 60vw;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center {
+    .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center {
         height: 10vh;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center > .circulo {
+    .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center > .circulo {
         width: 10vw;
         margin-left: 4vw;
     }
     
     #logo {
         color: var(--violeta-oscuro);
+        height:20vh;
     }
 
     .mainFooter {
         width: 100vw;
-        height: 80vh;
+        height: 40vh;
         position: absolute;
         background-color: var(--violeta-oscuro);
-        margin-top: 20vh;
+        margin-top: 35vh;
         visibility: visible;
     }
   }
@@ -220,3 +207,27 @@ input[type="date"] {
     font-size: 10px;
     padding: 10px;
 }
+
+/** ****** SCROLLBAR ****** **/
+
+::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: var(--violeta-oscuro);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--violeta-oscuro);
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--violeta-oscuro);
+  }
+
+  html {
+    scrollbar-color: var(--blanco) var(--violeta-oscuro);
+  }
+  
