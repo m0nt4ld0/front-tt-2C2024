@@ -152,47 +152,48 @@ input[type="date"] {
     }
 
     .formBusqueda {
-        padding-top: 10vh; 
+        padding-top: 15vh; 
         width: 100vw;
     }
-     
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .form-select {
+    
+    .row.g-2.align-items-center > .col > .form-select {
         float: left; 
         margin-bottom: 1vw;
-        width: 70vw;
+        width: 60vw;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > input[type="date"] {
+    .row.g-2.align-items-center > .col > input[type="date"] {
         float: left; 
         margin-bottom: 1vw;
-        width: 70vw;
+        width: 60vw;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .btn.btn-primary {
+    .row.g-2.align-items-center > .col > .btn.btn-primary {
         float: left; 
         margin-bottom: 1vw;
-        width: 70vw;
+        width: 60vw;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center {
+    .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center {
         height: 10vh;
     }
 
-    .formBusqueda > form > .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center > .circulo {
+    .row.g-2.align-items-center > .col > .d-flex.justify-content-center.align-items-center > .circulo {
         width: 10vw;
         margin-left: 4vw;
     }
     
     #logo {
         color: var(--violeta-oscuro);
+        height:20vh;
     }
 
     .mainFooter {
         width: 100vw;
-        height: 80vh;
+        height: 40vh;
         position: absolute;
         background-color: var(--violeta-oscuro);
-        margin-top: 20vh;
+        margin-top: 35vh;
         visibility: visible;
     }
   }
