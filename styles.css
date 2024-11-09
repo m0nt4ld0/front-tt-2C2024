@@ -81,7 +81,6 @@ body, html {
     z-index: 50;
     padding-top: 15vh;
     padding-left: 15vw;
-    width: 100vw;
 }
 
 .formBusqueda > form > .row.g-2.align-items-center {
