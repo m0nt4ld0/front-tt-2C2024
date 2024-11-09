@@ -136,7 +136,7 @@ input[type="date"] {
     
     .mainFooter {
         width: 100vw;
-        height: 20vh;
+        height: 50vh;
     }
   }
   
@@ -187,7 +187,7 @@ input[type="date"] {
 
     .mainFooter {
         width: 100vw;
-        height: 40vh;
+        height: 90vh;
         position: absolute;
         background-color: var(--violeta-oscuro);
         margin-top: 35vh;
@@ -196,16 +196,32 @@ input[type="date"] {
   }
 
 /** ****** CONTENIDO PPAL ****** **/
+
 .container-fluid {
     color: var(--violeta-oscuro);
 }
 
 /** ****** FOOTER ****** **/
+
 .mainFooter {
     background-color: var(--violeta-oscuro);
     color: white;
     font-size: 10px;
     padding: 10px;
+}
+
+.footerLinks ul li{
+    list-style-type: none;
+    text-decoration: none;
+}
+
+.footerLinks ul li a{
+    text-decoration: none;
+    color: var(--blanco);
+}
+
+.footerLinks ul li a:hover{
+    color: var(--rosado);
 }
 
 /** ****** SCROLLBAR ****** **/
