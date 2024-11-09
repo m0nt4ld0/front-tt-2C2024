@@ -13,6 +13,9 @@
     box-sizing: border-box;
 }
 
+html, body {
+}
+
 /** ****** BARRA DE NAVEGACION ****** **/
 
 .mainNav {
@@ -54,13 +57,28 @@
 /** ****** CAROUSEL ****** **/
 .mainCarousel {
     width: 100vw;
-    height: 50vh;
-    display: flex; /* Para centrar el contenido si se desea */
+    height: 20vh;
     align-items: center;
     justify-content: center;
     color: white;
-    font-family: Arial, sans-serif;
     text-align: center;
     border: 1px solid var(--violeta-claro);
     z-index: 1;
+    position: absolute;
+}
+
+/** ****** CONTENIDO PPAL ****** **/
+.container-fluid {
+    color:var(--violeta-oscuro);
+}
+
+/** ****** FOOTER ****** **/
+.mainFooter {
+    width: 100vw;
+    height: 20vh;
+    background-color: var(--violeta-oscuro);
+    color: white;
+    font-size: 10px;
+    padding: 10px;
+    
 }
