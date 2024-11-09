@@ -13,9 +13,6 @@
     box-sizing: border-box;
 }
 
-html, body {
-}
-
 /** ****** BARRA DE NAVEGACION ****** **/
 
 .mainNav {
@@ -67,9 +64,27 @@ html, body {
     position: absolute;
 }
 
+/** ****** FORM DE BUSQUEDA ****** **/
+.formBusqueda {
+    position: absolute;
+    z-index: 50;
+    padding-top: 25vh; /* Va a tener que cambiar segun tamaño de pantalla */
+    padding-left: 10vw;
+}
+
+.circulo {
+    width: 5vw;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
+    float: left;
+    margin-left: 2vw;
+}
+
 /** ****** CONTENIDO PPAL ****** **/
 .container-fluid {
-    color:var(--violeta-oscuro);
+    color: var(--violeta-oscuro);
 }
 
 /** ****** FOOTER ****** **/
