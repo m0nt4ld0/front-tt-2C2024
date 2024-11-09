@@ -73,17 +73,14 @@ body, html {
 
 /** ****** FORM DE BUSQUEDA ****** **/
 #logo {
-    width: 5vw; /*350px;*/
-    height: 1vh; /*125px;*/
-    border: 1px solid white;
-    float: left;
+    height: 30vh;
 }
 
 .formBusqueda {
     position: absolute;
     z-index: 50;
-    padding-top: 25vh;
-    padding-left: 10vw;
+    padding-top: 15vh;
+    padding-left: 15vw;
     width: 100vw;
 }
 
