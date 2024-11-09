@@ -2,102 +2,65 @@
     --violeta-oscuro: #25064D;
     --violeta-claro: #6911DA;
     --rosado: #D3435D;
-    --amarillo: #D0853A;
+    --anaranjado: #D0853A;
     --azul: #073ED1;
 }
 
-body {
-    background: rgb(238,174,202);
-    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,0.9514180672268907) 100%);
-    overflow-x: hidden;
+* {
+    font-family: Jost;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-h3 {
-    color: var(--violeta-oscuro);
-}
-/* *** Carousel **** */
+/** ****** BARRA DE NAVEGACION ****** **/
 
-#searchFormContainer {
+.mainNav {
+    width:100%;
+    height: auto;
+    background-color: var(--violeta-oscuro);
+    border:1px solid white;
+    z-index: 10;
+    color:white;
+    float:left;
     position: absolute;
-    top: 50%;
-    left: 35%;
-    width: 70vh;
-    height: 75px;
-    z-index: 2;
+    top: 0;
 }
 
-/* *** Otras secciones **** */
-
-.container-md {
-    background-color: #fff;
-    padding-top: 30%;
-    padding-bottom: 1rem;
+.mainNavMenu li{
+    float: left;
+    list-style-type: none;
+    margin-left: 2vh;
+    margin-top: 2vh;
 }
 
-.footer {
-    background-color: var(--violeta-oscuro);
-    color:white;
-    padding-bottom: 1rem;
-    width: 100%;
-    height:10rem;
+.mainNavMenu li a {
+    color: white;
+    text-decoration: none;
 }
 
-/* *** Uso de Media Queries - Seccion contacto **** */
-@media screen and (max-width: 992px) {
-    #contact {
-      width: 50%;
-    }
-    /*.card .mb-2 {
-        width: 45rem;
-    }*/
-}
-  
-@media screen and (max-width: 600px) {
-    #contact {
-      width: 100%;
-    }
-    /*.card .mb-2 {
-        width: 15rem;
-    }*/
+.mainNavMenu img {
+    width:14px; 
+    padding-right: 0.5px;
 }
 
-/* *** Seccion productos - Grid **** */
-.grid-products-container {
-    display: grid;
+.mainNavHamburger {
+    float:left;
+    margin: 2vh; 
+    width: 3vh;
+    height: 3vh;
 }
 
-.grid-product {
-    grid-row-start: 1;
-    grid-row-end: 3;
-}
-
-/* *** Tarjetas **** */
-.card {
-    width: 13rem;
-    margin-left: 1rem;
-}
-
-
-/* *** Botones **** */
-
-.btn-primary {
-    border-color: var(--violeta-oscuro);
-    background-color: var(--violeta-oscuro);
-}
-
-.btn-secondary {
-    border-color: var(--violeta-claro);
-    background-color: var(--violeta-claro);
-}
-
-.btn-info {
-    border-color: var(--rosado);
-    background-color: var(--rosado);
-    color:white;
-}
-
-.btn-warning {
-    border-color: var(--amarillo);
-    background-color: var(--amarillo);
-    color:white;
+/** ****** CAROUSEL ****** **/
+.mainCarousel {
+    width: 100vw;
+    height: 50vh;
+    display: flex; /* Para centrar el contenido si se desea */
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    border: 1px solid var(--violeta-claro);
+    z-index: 1;
 }
