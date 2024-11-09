@@ -65,11 +65,19 @@
 }
 
 /** ****** FORM DE BUSQUEDA ****** **/
+#logo {
+    width: 350px;
+    height: 125px;
+    border: 1px solid white;
+    float: left;
+}
+
 .formBusqueda {
     position: absolute;
     z-index: 50;
     padding-top: 25vh; /* Va a tener que cambiar segun tamaño de pantalla */
     padding-left: 10vw;
+    width: 100vw;
 }
 
 .circulo {
@@ -78,8 +86,12 @@
     background-size: cover;
     background-position: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
-    float: left;
     margin-left: 2vw;
+}
+
+.btn-primary {
+    background-color: var(--violeta-oscuro);
+    border: 1px solid var(--violeta-oscuro);
 }
 
 /** ****** CONTENIDO PPAL ****** **/
