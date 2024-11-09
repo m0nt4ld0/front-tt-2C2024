@@ -187,7 +187,7 @@ input[type="date"] {
 
     .mainFooter {
         width: 100vw;
-        height: 40vh;
+        height: 90vh;
         position: absolute;
         background-color: var(--violeta-oscuro);
         margin-top: 35vh;
