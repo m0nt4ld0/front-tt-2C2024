@@ -126,7 +126,7 @@ input[type="date"] {
     }
 
     .row.g-2.align-items-center > .col > .btn.btn-primary {
-        width: 7vw;
+        width: 9vw;
         margin-left: 1vw;
     }
 
@@ -136,7 +136,11 @@ input[type="date"] {
     
     .mainFooter {
         width: 100vw;
-        height: 50vh;
+        height: 90vh;
+    }
+
+    .btn.btn-primary {
+        width:25vw;
     }
   }
   
@@ -207,7 +211,7 @@ input[type="date"] {
     background-color: var(--violeta-oscuro);
     color: white;
     font-size: 10px;
-    padding: 10px;
+    /* padding: 10px;*/
 }
 
 .footerLinks ul li{
