@@ -126,7 +126,7 @@ input[type="date"] {
     }
 
     .row.g-2.align-items-center > .col > .btn.btn-primary {
-        width: 7vw;
+        width: 9vw;
         margin-left: 1vw;
     }
 
@@ -136,7 +136,11 @@ input[type="date"] {
     
     .mainFooter {
         width: 100vw;
-        height: 50vh;
+        height: 90vh;
+    }
+
+    .btn.btn-primary {
+        width:25vw;
     }
   }
   
@@ -144,8 +148,9 @@ input[type="date"] {
      Si la pantalla es chica, el form de busqueda se vuelve vertical
      Y el carousel no se muestra */
   @media screen and (max-width: 430px) {
-    .mainCarousel {
+    .mainCarousel > #carouselExampleIndicators {
         visibility: hidden;
+        padding-top: 40vh;
     }
 
     .formBusqueda {
@@ -207,7 +212,7 @@ input[type="date"] {
     background-color: var(--violeta-oscuro);
     color: white;
     font-size: 10px;
-    padding: 10px;
+    /* padding: 10px;*/
 }
 
 .footerLinks ul li{
@@ -247,3 +252,45 @@ input[type="date"] {
     scrollbar-color: var(--blanco) var(--violeta-oscuro);
   }
   
+/** ****** GRILLA DE PRODUCTOS ****** **/
+
+.grilla-productos {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    padding: 16px;
+}
+
+.tarjeta-producto {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    color: white;
+}
+
+.tarjeta-contenido {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); 
+    width: 100%;
+    padding: 16px;
+}
+
+.tarjeta-contenido h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.tarjeta-contenido p {
+    margin: 0;
+    font-size: 1em;
+}
+
+@media (min-width: 768px) {
+    .grilla-productos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
