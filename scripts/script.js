@@ -19,6 +19,24 @@
  */
 
 function esFormCompleto(formId) {
+    // ToDo: Quizas con array y filter se puede reescribir en menos lineas de codigo
+    const form = document.getElementById(formId);
+
+    if (!form) {
+        console.error(`Formulario de id=${form.id} no encontrado`);
+        return false;
+    }
+    
+    const elements = form.elements;
+    
+    for (let e of elements) {
+        if((e.type == "email" || e.type == "textarea") && e.value == "") {
+            console.log(`Existen campos del formulario de id=${form.id} sin completar`);
+            return false;
+        }
+    }
+
+    console.log(`Todos los campos del formulario de id=${form.id} están completos`);
     return true;
 }
 
