@@ -12,6 +12,12 @@
 
 const productos = ["Perú", "México", "Brasil"];
 
+const descripciones = {
+    "tarjeta-peru": "Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.", 
+    "tarjeta-mexico": "México te espera con sus playas paradisíacas, ciudades coloniales llenas de historia, y una cultura vibrante que se refleja en su gastronomía, sus festivales coloridos y su calidez única; un destino donde cada visita se convierte en una aventura inolvidable.", 
+    "tarjeta-brasil": "Brasil te invita a explorar su belleza sin igual, desde las icónicas playas de Río de Janeiro hasta la imponente selva amazónica y el ritmo contagioso del carnaval; un país lleno de naturaleza exuberante, cultura vibrante y alegría que te harán querer regresar una y otra vez."
+};
+
 function mainEjercicios() {
     esFormCompleto('contact');
     obtenerListadoProductos();
@@ -66,7 +72,11 @@ function obtenerListadoProductos() {
  * Implementar un evento click que muestra la
  * descripción ampliada del producto que clickeamos. 
  */
-function mostrarDescripcionProducto() {
+function mostrarDescripcionProducto(producto) {
+    console.log(`El producto ${producto} ` + 
+            ((producto == "" || producto == null) ? 
+                `no fue encontrado.` : 
+                `tiene la descripción: ${descripciones[producto]}`));
 }
 
 /* Manipulacion basica del DOM y eventos - 2
