@@ -10,6 +10,13 @@
  *
  */
 
+const productos = ["Perú", "México", "Brasil"];
+
+function mainEjercicios() {
+    esFormCompleto('contact');
+    obtenerListadoProductos();
+}
+
 /////////// Condicionales y ciclos /////////// 
 
 /* Condicionales y ciclos - 1
@@ -46,9 +53,14 @@ function esFormCompleto(formId) {
  * consola 
  */
  
-/////////// Manipulacion basica del DOM y eventos /////////// 
 function obtenerListadoProductos() {
+    console.log("Listado de productos disponibles:");
+    for(let p of productos) {
+        console.log(p);
+    }
 }
+
+/////////// Manipulacion basica del DOM y eventos /////////// 
 
 /* Manipulacion basica del DOM y eventos - 1
  * Implementar un evento click que muestra la
