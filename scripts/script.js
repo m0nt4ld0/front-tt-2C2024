@@ -21,6 +21,15 @@ const descripciones = {
 function mainEjercicios() {
     esFormCompleto('contact');
     obtenerListadoProductos();
+
+    // Eventos de clic para divs de viajes
+    const tarjetasProductos = document.getElementsByClassName("tarjeta-producto");
+    
+    for(let tp of tarjetasProductos) {
+        tp.addEventListener("click", () => {
+            mostrarDescripcionProducto(tp.id);
+        });
+    }
 }
 
 /////////// Condicionales y ciclos /////////// 
