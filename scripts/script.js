@@ -171,7 +171,7 @@ async function obtenerDatosAPIyMostrarEnMain() {
         const grillaProductos = document.getElementById('grilla-dinamica-productos');
         // Actualizar el DOM
         data.geonames.forEach(country => {
-            var html = `<div class="tarjeta-producto" id="tarjeta-${country.countryName}" style="background-image: url('./imgs/destinations/buzios.jpg'); ">
+            var html = `<div class="tarjeta-producto" id="tarjeta-${country.countryName}" style="background-image: url('./imgs/destinations/sin-imagen.jpg'); ">
                 <div class="tarjeta-contenido">
                     <h3>${country.countryName}</h3>
                     <p>${country.countryName}</p>
