@@ -12,6 +12,7 @@
 
 const productos = ["Perú", "México", "Brasil"];
 const GEONAMES_API_KEY = "mmontaldo";
+const UNSPLASH_API_KEY = "SQlNF6a80hwUX5aYFGBV3C3-qo7Bml7IbXvuZgc5ciI";
 
 const descripciones = {
     "tarjeta-peru": "Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.", 
@@ -33,6 +34,7 @@ async function mainEjercicios() {
     }
     mostrarListadoProductosEnListaDinamica();
     await obtenerDatosAPIyMostrarEnMain();
+    await obtenerCardsPaisesYcargarFotos();
 }
 
 /////////// Condicionales y ciclos /////////// 
@@ -109,17 +111,17 @@ function mostrarListadoProductosEnListaDinamica() {
     console.log("Inicia ejecucion mostrarListadoProductosEnListaDinamica()");
 
     var arrayProductos = {
-        "tarjeta-peru2": {
+        "tarjeta-peru": {
             "title" : "Perú",
             "description" : "Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.",
             "image" : "./imgs/destinations/MachuPicchu.jpg"
         },
-        "tarjeta-mexico2": {
+        "tarjeta-mexico": {
             "title" : "México",
             "description" : "México te espera con sus playas paradisíacas, ciudades coloniales llenas de historia, y una cultura vibrante que se refleja en su gastronomía, sus festivales coloridos y su calidez única; un destino donde cada visita se convierte en una aventura inolvidable.",
             "image" : "./imgs/destinations/mexico.jpg"
         },
-        "tarjeta-brasil2": {
+        "tarjeta-brasil": {
             "title" : "Brasil",
             "description" : "Brasil te invita a explorar su belleza sin igual, desde las icónicas playas de Río de Janeiro hasta la imponente selva amazónica y el ritmo contagioso del carnaval; un país lleno de naturaleza exuberante, cultura vibrante y alegría que te harán querer regresar una y otra vez.",
             "image" : "./imgs/destinations/buzios.jpg"
@@ -132,7 +134,7 @@ function mostrarListadoProductosEnListaDinamica() {
         if (arrayProductos.hasOwnProperty(p)) {
             console.log("entra if mostrarListadoProductosEnListaDinamica()");
             var producto = arrayProductos[p];
-            var html = `<div class="tarjeta-producto" id="tarjeta-${p}" style="background-image: url('${producto.image}'); ">
+            var html = `<div class="tarjeta-producto" id="${p}" style="background-image: url('${producto.image}'); ">
                 <div class="tarjeta-contenido">
                     <h3>${producto.title}</h3>
                     <p>${producto.description}</p>
@@ -184,6 +186,30 @@ async function obtenerDatosAPIyMostrarEnMain() {
     } catch (error) {
         console.error("Hubo un problema con la solicitud:", error);
         document.getElementById('destinos').innerHTML = error.message;
+    }
+}
+
+async function obtenerCardsPaisesYcargarFotos() {
+    console.log("Inicia ejecución obtenerCardsPaisesYcargarFotos()");
+    const grillaProductos = document.getElementsByClassName('grilla-productos');
+    for(card of grillaProductos) {
+        var cardId = card.children[0].id;
+        var countryName = card.children[0].id.split('-')[1];
+        const apiUrl = `https://api.unsplash.com/search/collections?page=1&query=${countryName}&client_id=${UNSPLASH_API_KEY}`;
+        try {
+            const response = await fetch(apiUrl);
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            var img_url = data.results[0].cover_photo.urls.small;
+            document.getElementById(cardId).style = `background-image: url('${img_url}'); `;
+            console.log(img_url);
+        } catch(e) {
+            console.error("Hubo un error al procesar la solicitud: ", e);
+        }
     }
 }
 
