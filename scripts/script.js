@@ -19,7 +19,7 @@ const descripciones = {
     "tarjeta-brasil": "Brasil te invita a explorar su belleza sin igual, desde las icónicas playas de Río de Janeiro hasta la imponente selva amazónica y el ritmo contagioso del carnaval; un país lleno de naturaleza exuberante, cultura vibrante y alegría que te harán querer regresar una y otra vez."
 };
 
-function mainEjercicios() {
+async function mainEjercicios() {
     esFormCompleto('contact');
     obtenerListadoProductos();
 
@@ -31,8 +31,9 @@ function mainEjercicios() {
             mostrarDescripcionProducto(tp.id);
         });
     }
-    obtenerDatosAPIyMostrarEnMain();
+    //mostrarCardsDatosAPI();
     mostrarListadoProductosEnListaDinamica();
+    
 }
 
 /////////// Condicionales y ciclos /////////// 
@@ -112,17 +113,17 @@ function mostrarListadoProductosEnListaDinamica() {
         "tarjeta-peru2": {
             "title" : "Perú",
             "description" : "Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.",
-            "bg-image" : ""
+            "image" : "./imgs/destinations/MachuPicchu.jpg"
         },
         "tarjeta-mexico2": {
             "title" : "México",
             "description" : "México te espera con sus playas paradisíacas, ciudades coloniales llenas de historia, y una cultura vibrante que se refleja en su gastronomía, sus festivales coloridos y su calidez única; un destino donde cada visita se convierte en una aventura inolvidable.",
-            "bg-image" : ""
+            "image" : "./imgs/destinations/mexico.jpg"
         },
         "tarjeta-brasil2": {
             "title" : "Brasil",
             "description" : "Brasil te invita a explorar su belleza sin igual, desde las icónicas playas de Río de Janeiro hasta la imponente selva amazónica y el ritmo contagioso del carnaval; un país lleno de naturaleza exuberante, cultura vibrante y alegría que te harán querer regresar una y otra vez.",
-            "bg-image" : ""
+            "image" : "./imgs/destinations/buzios.jpg"
         }
     };
     
@@ -132,7 +133,7 @@ function mostrarListadoProductosEnListaDinamica() {
         if (arrayProductos.hasOwnProperty(p)) {
             console.log("entra if mostrarListadoProductosEnListaDinamica()");
             var producto = arrayProductos[p];
-            var html = `<div class="tarjeta-producto" id="${key}" style="background-image: url('${producto.bg-image}'); ">
+            var html = `<div class="tarjeta-producto" id="tarjeta-${p}" style="background-image: url('${producto.image}'); ">
                 <div class="tarjeta-contenido">
                     <h3>${producto.title}</h3>
                     <p>${producto.description}</p>
@@ -141,7 +142,6 @@ function mostrarListadoProductosEnListaDinamica() {
             grillaProductos.innerHTML += html;
         }
     }
-
 }
 
 /////////// Asincronia y consumo de API Rest /////////// 
@@ -150,28 +150,32 @@ function mostrarListadoProductosEnListaDinamica() {
  * Utilización de fetch para obtener datos de una API
  * pública y mostrarlos en la sección main del HTML.
  */
-function obtenerDatosAPIyMostrarEnMain() {
-    console.log("Inicia ejecucion obtenerDatosAPIyMostrarEnMain");
+async function obtenerDatosAPIyMostrarEnMain() {
+    console.log("Inicia ejecución obtenerDatosAPIyMostrarEnMain");
     const apiUrl = `http://api.geonames.org/neighboursJSON?formatted=true&geonameId=2658434&username=${GEONAMES_API_KEY}`;
 
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Datos obtenidos:", data);
-            data.geonames.forEach(country => {
-                document.getElementById('destinos').innerHTML += country.countryName + '<br>';
-            });
-        })
-        .catch(error => {
-            console.error("Hubo un problema con la solicitud:", error);
-            document.getElementById('destinos').innerHTML = error;
+    try {
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Datos obtenidos:", data);
+
+        // Actualizar el DOM
+        data.geonames.forEach(country => {
+            document.getElementById('destinos').innerHTML += country.countryName + '<br>';
         });
+
+        return data; // Retorna los datos obtenidos
+    } catch (error) {
+        console.error("Hubo un problema con la solicitud:", error);
+        document.getElementById('destinos').innerHTML = error.message;
+    }
 }
+
 
 /* Asincronia y consumo de API Rest - 2
  * Procesar los datos obtenidos de la API para
@@ -179,6 +183,21 @@ function obtenerDatosAPIyMostrarEnMain() {
  * mantener la coherencia en el diseño.
  */
 function mostrarCardsDatosAPI() {
+    console.log("Inicia ejecucion mostrarCardsDatosAPI");
+    const grillaProductos = document.getElementById('grilla-productos');
+    obtenerDatosAPIyMostrarEnMain()
+    .then(datos => {
+        for(d of datos.geonames) {
+            var html = `<div class="tarjeta-producto" id="tarjeta-${d.countryName}" style="background-image: url('${d.countryName}'); ">
+                <div class="tarjeta-contenido">
+                    <h3>${d.countryName}</h3>
+                    <p>${d.countryName}</p>
+                </div>
+            </div>`;
+            grillaProductos.innerHTML += html;
+        }
+    })
+    .catch(error => console.error("Error en main:", error));
 }
 
 /////////// Carrito de compras ///////////
