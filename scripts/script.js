@@ -192,23 +192,24 @@ async function obtenerDatosAPIyMostrarEnMain() {
 async function obtenerCardsPaisesYcargarFotos() {
     console.log("Inicia ejecución obtenerCardsPaisesYcargarFotos()");
     const grillaProductos = document.getElementsByClassName('grilla-productos');
-    for(card of grillaProductos) {
-        var cardId = card.children[0].id;
-        var countryName = card.children[0].id.split('-')[1];
-        const apiUrl = `https://api.unsplash.com/search/collections?page=1&query=${countryName}&client_id=${UNSPLASH_API_KEY}`;
-        try {
-            const response = await fetch(apiUrl);
+    for(grilla of grillaProductos) {
+        for(card of grilla.children) {
+            var cardId = card.id;
+            var countryName = card.id.split('-')[1];
+            const apiUrl = `https://api.unsplash.com/search/collections?page=1&query=${countryName}&client_id=${UNSPLASH_API_KEY}`;
+            try {
+                const response = await fetch(apiUrl);
 
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`);
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                var img_url = data.results[0].cover_photo.urls.small;
+                document.getElementById(cardId).style = `background-image: url('${img_url}'); `;
+            } catch(e) {
+                console.error("Hubo un error al procesar la solicitud: ", e);
             }
-
-            const data = await response.json();
-            var img_url = data.results[0].cover_photo.urls.small;
-            document.getElementById(cardId).style = `background-image: url('${img_url}'); `;
-            console.log(img_url);
-        } catch(e) {
-            console.error("Hubo un error al procesar la solicitud: ", e);
         }
     }
 }
