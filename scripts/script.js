@@ -31,9 +31,8 @@ async function mainEjercicios() {
             mostrarDescripcionProducto(tp.id);
         });
     }
-    //mostrarCardsDatosAPI();
     mostrarListadoProductosEnListaDinamica();
-    
+    await obtenerDatosAPIyMostrarEnMain();
 }
 
 /////////// Condicionales y ciclos /////////// 
@@ -150,6 +149,12 @@ function mostrarListadoProductosEnListaDinamica() {
  * Utilización de fetch para obtener datos de una API
  * pública y mostrarlos en la sección main del HTML.
  */
+
+/* Asincronia y consumo de API Rest - 2
+ * Procesar los datos obtenidos de la API para
+ * organizarlos en cards, aplicando Flexbox o Grid para
+ * mantener la coherencia en el diseño.
+ */
 async function obtenerDatosAPIyMostrarEnMain() {
     console.log("Inicia ejecución obtenerDatosAPIyMostrarEnMain");
     const apiUrl = `http://api.geonames.org/neighboursJSON?formatted=true&geonameId=2658434&username=${GEONAMES_API_KEY}`;
@@ -163,10 +168,16 @@ async function obtenerDatosAPIyMostrarEnMain() {
 
         const data = await response.json();
         console.log("Datos obtenidos:", data);
-
+        const grillaProductos = document.getElementById('grilla-dinamica-productos');
         // Actualizar el DOM
         data.geonames.forEach(country => {
-            document.getElementById('destinos').innerHTML += country.countryName + '<br>';
+            var html = `<div class="tarjeta-producto" id="tarjeta-${country.countryName}" style="background-image: url('./imgs/destinations/buzios.jpg'); ">
+                <div class="tarjeta-contenido">
+                    <h3>${country.countryName}</h3>
+                    <p>${country.countryName}</p>
+                </div>
+            </div>`;
+            grillaProductos.innerHTML += html;
         });
 
         return data; // Retorna los datos obtenidos
@@ -174,30 +185,6 @@ async function obtenerDatosAPIyMostrarEnMain() {
         console.error("Hubo un problema con la solicitud:", error);
         document.getElementById('destinos').innerHTML = error.message;
     }
-}
-
-
-/* Asincronia y consumo de API Rest - 2
- * Procesar los datos obtenidos de la API para
- * organizarlos en cards, aplicando Flexbox o Grid para
- * mantener la coherencia en el diseño.
- */
-function mostrarCardsDatosAPI() {
-    console.log("Inicia ejecucion mostrarCardsDatosAPI");
-    const grillaProductos = document.getElementById('grilla-productos');
-    obtenerDatosAPIyMostrarEnMain()
-    .then(datos => {
-        for(d of datos.geonames) {
-            var html = `<div class="tarjeta-producto" id="tarjeta-${d.countryName}" style="background-image: url('${d.countryName}'); ">
-                <div class="tarjeta-contenido">
-                    <h3>${d.countryName}</h3>
-                    <p>${d.countryName}</p>
-                </div>
-            </div>`;
-            grillaProductos.innerHTML += html;
-        }
-    })
-    .catch(error => console.error("Error en main:", error));
 }
 
 /////////// Carrito de compras ///////////
