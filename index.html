@@ -26,9 +26,11 @@
         rel="stylesheet" 
         href="styles.css" />
     <link rel="icon" type="image/png" href="./imgs/logo/favicon.png" sizes="32x32">
+    <!-- Archivo JavaScript (entrega final TP) -->
+    <script src="./scripts/script.js" async></script>
     <title>Vuela Vuela | Estás a un click de tu próximo destino</title>
 </head>
-<body>
+<body onload="mainEjercicios()">
     <!-- Bootstrap -->
     <script 
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
@@ -205,29 +207,19 @@
             </div>
 
             <!-- Contenido principal -->
-            <div class="container-fluid" id="destinos">
-                <h2 class="text-start">Descubre los destinos que tenemos para tí</h2>
-                <div class="grilla-productos">
-                    <div class="tarjeta-producto" style="background-image: url('./imgs/destinations/MachuPicchu.jpg'); ">
-                        <div class="tarjeta-contenido">
-                            <h3>Perú</h3>
-                            <p>Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.</p>
-                        </div>
-                    </div>
-                    <div class="tarjeta-producto" style="background-image: url('./imgs/destinations/mexico.jpg'); ">
-                        <div class="tarjeta-contenido">
-                            <h3>México</h3>
-                            <p>México te espera con sus playas paradisíacas, ciudades coloniales llenas de historia, y una cultura vibrante que se refleja en su gastronomía, sus festivales coloridos y su calidez única; un destino donde cada visita se convierte en una aventura inolvidable.</p>
-                        </div>
-                    </div>
-                    <div class="tarjeta-producto" style="background-image: url('./imgs/destinations/buzios.jpg'); ">
-                        <div class="tarjeta-contenido">
-                            <h3>Brasil</h3>
-                            <p>Brasil te invita a explorar su belleza sin igual, desde las icónicas playas de Río de Janeiro hasta la imponente selva amazónica y el ritmo contagioso del carnaval; un país lleno de naturaleza exuberante, cultura vibrante y alegría que te harán querer regresar una y otra vez.</p>
-                        </div>
-                    </div>
-                    <!-- Agrega más tarjetas según sea necesario -->
-                </div>                
+            <div 
+                class="container-fluid" 
+                id="destinos">
+                <h2 
+                    class="text-start">Descubre los destinos que tenemos para tí</h2>
+                <div 
+                    class="grilla-productos" 
+                    id="grilla-productos">
+                </div>
+                <div 
+                    class="grilla-productos" 
+                    id="grilla-dinamica-productos">
+                </div>
             </div>
             
             <!-- Footer -->
@@ -267,7 +259,7 @@
                     <div class="col mx-3">
                         <div class="container">
                             <h4>¿No encontraste el destino que buscabas? ¡Escribinos!</h4>
-                            <form action="https://formspree.io/f/mbljyjwe" method="POST">
+                            <form id="contact" action="https://formspree.io/f/mbljyjwe" method="POST">
                                 <div class="row">
                                     <div class="col mb-3">
                                         <label 
