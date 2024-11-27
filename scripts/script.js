@@ -11,6 +11,7 @@
  */
 
 const productos = ["Perú", "México", "Brasil"];
+const GEONAMES_API_KEY = "mmontaldo";
 
 const descripciones = {
     "tarjeta-peru": "Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.", 
@@ -24,12 +25,14 @@ function mainEjercicios() {
 
     // Eventos de clic para divs de viajes
     const tarjetasProductos = document.getElementsByClassName("tarjeta-producto");
-    
+
     for(let tp of tarjetasProductos) {
         tp.addEventListener("click", () => {
             mostrarDescripcionProducto(tp.id);
         });
     }
+    obtenerDatosAPIyMostrarEnMain();
+    mostrarListadoProductosEnListaDinamica();
 }
 
 /////////// Condicionales y ciclos /////////// 
@@ -98,11 +101,47 @@ function mostrarListadoProductos() {
 /////////// Funciones modulares /////////// 
 
 /* Funciones modulares - 1
- * Crear de una función que cree un array de
+ * Crear una función que cree un array de
  * productos y los muestre en la página utilizando
  * una plantilla HTML dinámica.
  */
 function mostrarListadoProductosEnListaDinamica() {
+    console.log("Inicia ejecucion mostrarListadoProductosEnListaDinamica()");
+
+    var arrayProductos = {
+        "tarjeta-peru2": {
+            "title" : "Perú",
+            "description" : "Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.",
+            "bg-image" : ""
+        },
+        "tarjeta-mexico2": {
+            "title" : "México",
+            "description" : "México te espera con sus playas paradisíacas, ciudades coloniales llenas de historia, y una cultura vibrante que se refleja en su gastronomía, sus festivales coloridos y su calidez única; un destino donde cada visita se convierte en una aventura inolvidable.",
+            "bg-image" : ""
+        },
+        "tarjeta-brasil2": {
+            "title" : "Brasil",
+            "description" : "Brasil te invita a explorar su belleza sin igual, desde las icónicas playas de Río de Janeiro hasta la imponente selva amazónica y el ritmo contagioso del carnaval; un país lleno de naturaleza exuberante, cultura vibrante y alegría que te harán querer regresar una y otra vez.",
+            "bg-image" : ""
+        }
+    };
+    
+    const grillaProductos = document.getElementById('grilla-productos');
+
+    for (var p in arrayProductos) {
+        if (arrayProductos.hasOwnProperty(p)) {
+            console.log("entra if mostrarListadoProductosEnListaDinamica()");
+            var producto = arrayProductos[p];
+            var html = `<div class="tarjeta-producto" id="${key}" style="background-image: url('${producto.bg-image}'); ">
+                <div class="tarjeta-contenido">
+                    <h3>${producto.title}</h3>
+                    <p>${producto.description}</p>
+                </div>
+            </div>`;
+            grillaProductos.innerHTML += html;
+        }
+    }
+
 }
 
 /////////// Asincronia y consumo de API Rest /////////// 
@@ -111,7 +150,27 @@ function mostrarListadoProductosEnListaDinamica() {
  * Utilización de fetch para obtener datos de una API
  * pública y mostrarlos en la sección main del HTML.
  */
-function obtenerDatosAPI() {
+function obtenerDatosAPIyMostrarEnMain() {
+    console.log("Inicia ejecucion obtenerDatosAPIyMostrarEnMain");
+    const apiUrl = `http://api.geonames.org/neighboursJSON?formatted=true&geonameId=2658434&username=${GEONAMES_API_KEY}`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Datos obtenidos:", data);
+            data.geonames.forEach(country => {
+                document.getElementById('destinos').innerHTML += country.countryName + '<br>';
+            });
+        })
+        .catch(error => {
+            console.error("Hubo un problema con la solicitud:", error);
+            document.getElementById('destinos').innerHTML = error;
+        });
 }
 
 /* Asincronia y consumo de API Rest - 2
