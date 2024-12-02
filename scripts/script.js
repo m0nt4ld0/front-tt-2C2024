@@ -159,7 +159,7 @@ function mostrarListadoProductosEnListaDinamica() {
  */
 async function obtenerDatosAPIyMostrarEnMain() {
     console.log("Inicia ejecución obtenerDatosAPIyMostrarEnMain");
-    const apiUrl = `http://api.geonames.org/neighboursJSON?formatted=true&geonameId=2658434&username=${GEONAMES_API_KEY}`;
+    const apiUrl = `https://api.geonames.org/neighboursJSON?formatted=true&geonameId=2658434&username=${GEONAMES_API_KEY}`;
 
     try {
         const response = await fetch(apiUrl);
