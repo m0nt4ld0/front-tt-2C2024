@@ -14,6 +14,14 @@ const productos = ["Perú", "México", "Brasil"];
 const GEONAMES_API_KEY = "mmontaldo";
 const UNSPLASH_API_KEY = "SQlNF6a80hwUX5aYFGBV3C3-qo7Bml7IbXvuZgc5ciI";
 
+// Carrito de compras - Constantes para las claves en localStorage y sessionStorage
+const CARRITO_COMPRAS_KEY = "carritoCompras";
+
+// Carrito de compras - Inicializa el carrito en localStorage si no existe
+if (!localStorage.getItem(CARRITO_COMPRAS_KEY)) {
+    localStorage.setItem(CARRITO_COMPRAS_KEY, JSON.stringify([]));
+}
+
 const descripciones = {
     "tarjeta-peru": "Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.", 
     "tarjeta-mexico": "México te espera con sus playas paradisíacas, ciudades coloniales llenas de historia, y una cultura vibrante que se refleja en su gastronomía, sus festivales coloridos y su calidez única; un destino donde cada visita se convierte en una aventura inolvidable.", 
@@ -35,6 +43,20 @@ async function mainEjercicios() {
     mostrarListadoProductosEnListaDinamica();
     await obtenerDatosAPIyMostrarEnMain();
     await obtenerCardsPaisesYcargarFotos();
+    // Registrar eventos en botones dinámicos
+    document.querySelectorAll('.agrega-carrito-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            const country = event.target.getAttribute('data-product');
+            const action = event.target.getAttribute('data-action') || 'add';
+            
+            if (action === 'add') {
+                agregarItemCarrito(country, 1);
+            } else {
+                agregarItemCarrito(country, -1);
+            }
+        });
+    });
 }
 
 /////////// Condicionales y ciclos /////////// 
@@ -134,7 +156,9 @@ function mostrarListadoProductosEnListaDinamica() {
         if (arrayProductos.hasOwnProperty(p)) {
             console.log("entra if mostrarListadoProductosEnListaDinamica()");
             var producto = arrayProductos[p];
-            var html = `<div class="tarjeta-producto" id="${p}" style="background-image: url('${producto.image}'); ">
+            var html = `<div class="tarjeta-producto" 
+                id="${p}" 
+                style="background-image: url('${producto.image}'); ">
                 <div class="tarjeta-contenido">
                     <h3>${producto.title}</h3>
                     <p>${producto.description}</p>
@@ -159,7 +183,7 @@ function mostrarListadoProductosEnListaDinamica() {
  */
 async function obtenerDatosAPIyMostrarEnMain() {
     console.log("Inicia ejecución obtenerDatosAPIyMostrarEnMain");
-    const apiUrl = `https://api.geonames.org/neighboursJSON?formatted=true&geonameId=2658434&username=${GEONAMES_API_KEY}`;
+    const apiUrl = `http://api.geonames.org/neighboursJSON?formatted=true&geonameId=2658434&username=${GEONAMES_API_KEY}`;
 
     try {
         const response = await fetch(apiUrl);
@@ -177,6 +201,26 @@ async function obtenerDatosAPIyMostrarEnMain() {
                 <div class="tarjeta-contenido">
                     <h3>${country.countryName}</h3>
                     <p>${country.countryName}</p>
+                    <p>
+                        <form>
+                            <button 
+                                id="addItem-${country.countryName}" 
+                                class="agrega-carrito-btn"
+                                data-product="${country.countryName}"
+                                data-action="add">+</button>
+                            <input 
+                                id="qtyItem-${country.countryName}" 
+                                value="0" 
+                                type="text"
+                                maxlength="2"
+                                size="1" />
+                            <button 
+                                id="removeItem-${country.countryName}" 
+                                class="agrega-carrito-btn"
+                                data-product="${country.countryName}"
+                                data-action="remove">-</button>
+                        </form>
+                    </p>
                 </div>
             </div>`;
             grillaProductos.innerHTML += html;
@@ -222,8 +266,23 @@ async function obtenerCardsPaisesYcargarFotos() {
  * y sessionStorage para almacenar la información
  * del carrito. 
  */
-function agregarItemCarrito() {
-    
+
+// Agregar un ítem al carrito
+function agregarItemCarrito(item, qty) {
+    const carrito = Array.isArray(obtenerCarrito()) ? obtenerCarrito() : [];
+
+    if (!item || typeof item.id === "undefined" || typeof item.quantity === "undefined") {
+        item = { id: item, quantity: 1 };
+    }
+
+    const existingItem = carrito.find((carritoItem) => carritoItem.id === item.id);
+
+    if (existingItem) {
+        existingItem.quantity += qty;
+    } else {
+        carrito.unshift(item);
+    }
+    guardarCarrito(carrito);
 }
 
 /* Los productos en el carrito se deben poder
@@ -232,18 +291,12 @@ function agregarItemCarrito() {
  * recargar la página.
 */
 
-function quitarItemCarrito() {
-    
+// Función para obtener el carrito actual desde localStorage
+function obtenerCarrito() {
+    return JSON.parse(localStorage.getItem(CARRITO_COMPRAS_KEY));
 }
-
-function mostrarDetalleItemCarrito() {
-    
-}
-
-function mostrarItemsCarrito() {
-    
-}
-
-function modificarCantidadCarrito(itemId) {
-    
+  
+// Función para guardar el carrito en localStorage
+function guardarCarrito(carrito) {
+    localStorage.setItem(CARRITO_COMPRAS_KEY, JSON.stringify(carrito));
 }
