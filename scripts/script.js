@@ -165,6 +165,10 @@ function mostrarListadoProductosEnListaDinamica() {
                 <div class="tarjeta-contenido">
                     <h3>${producto.title}</h3>
                     <p>${producto.description}</p>
+                    <div class="cart-controls">
+                        <button class="quantity-btn minus" onclick="modificarCantidadEnProducto('${producto.title}', -1)">-</button>
+                        <button class="quantity-btn plus" onclick="modificarCantidadEnProducto('${producto.title}', 1)">+</button>
+                    </div>
                 </div>
             </div>`;
             grillaProductos.innerHTML += html;
@@ -275,12 +279,13 @@ function initializeCartPanel() {
     const cartButton = document.getElementById('cartButton');
     const cartPanel = document.getElementById('cartPanel');
     const closeCart = document.querySelector('.close-cart');
-
+    
     if (cartButton && cartPanel && closeCart) {
         cartButton.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             cartPanel.classList.add('active');
+            updateCartDisplay(); // Update cart when opened
         });
 
         closeCart.addEventListener('click', function() {
@@ -298,12 +303,59 @@ function initializeCartPanel() {
     }
 }
 
+// Update the cart display
+function updateCartDisplay() {
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartCountDisplay = document.querySelector('.cart-count');
+    const totalAmountDisplay = document.querySelector('.total-amount');
+    const carrito = obtenerCarrito() || [];
+    const template = document.getElementById('cartItemTemplate');
+    
+    // Clear current items except the template
+    while (cartItemsList.children.length > 1) {
+        cartItemsList.removeChild(cartItemsList.lastChild);
+    }
+
+    let total = 0;
+    let totalItems = 0;
+
+    // Add each item to the cart
+    carrito.forEach(item => {
+        const clone = template.content.cloneNode(true);
+        
+        const nameElement = clone.querySelector('.item-name');
+        const quantityElement = clone.querySelector('.quantity');
+        const minusButton = clone.querySelector('.minus');
+        const plusButton = clone.querySelector('.plus');
+
+        nameElement.textContent = item.id;
+        quantityElement.textContent = item.quantity;
+        totalItems += item.quantity;
+        total += item.quantity;
+
+        // Add event listeners for + and - buttons
+        minusButton.addEventListener('click', () => {
+            modificarCantidadCarrito(item.id, item.quantity - 1);
+        });
+
+        plusButton.addEventListener('click', () => {
+            modificarCantidadCarrito(item.id, item.quantity + 1);
+        });
+
+        cartItemsList.appendChild(clone);
+    });
+
+    // Update total and cart count
+    totalAmountDisplay.textContent = total;
+    cartCountDisplay.textContent = totalItems;
+}
+
 // Agregar un ítem al carrito
-function agregarItemCarrito(item, qty) {
+function agregarItemCarrito(item, qty = 1) {
     const carrito = Array.isArray(obtenerCarrito()) ? obtenerCarrito() : [];
 
-    if (!item || typeof item.id === "undefined" || typeof item.quantity === "undefined") {
-        item = { id: item, quantity: 1 };
+    if (typeof item === "string") {
+        item = { id: item, quantity: qty };
     }
 
     const existingItem = carrito.find((carritoItem) => carritoItem.id === item.id);
@@ -311,28 +363,13 @@ function agregarItemCarrito(item, qty) {
     if (existingItem) {
         existingItem.quantity += qty;
     } else {
-        carrito.unshift(item);
+        carrito.push({ id: item.id || item, quantity: qty });
     }
+    
     guardarCarrito(carrito);
+    updateCartDisplay();
 }
 
-/* Los productos en el carrito se deben poder
- * visualizar, editar (cambiar la cantidad) y eliminar.
- * 3. La información debe mantenerse después de
- * recargar la página.
-*/
-
-// Función para obtener el carrito actual desde localStorage
-function obtenerCarrito() {
-    return JSON.parse(localStorage.getItem(CARRITO_COMPRAS_KEY));
-}
-  
-// Función para guardar el carrito en localStorage
-function guardarCarrito(carrito) {
-    localStorage.setItem(CARRITO_COMPRAS_KEY, JSON.stringify(carrito));
-}
-
-  
 // Modificar la cantidad de un ítem específico en el carrito
 function modificarCantidadCarrito(itemId, nuevaCantidad) {
     const carrito = obtenerCarrito();
@@ -344,21 +381,45 @@ function modificarCantidadCarrito(itemId, nuevaCantidad) {
         } else {
             item.quantity = nuevaCantidad;
             guardarCarrito(carrito);
-            console.log(`Cantidad del producto con ID ${itemId} actualizada a ${nuevaCantidad}.`);
         }
-    } else {
-        console.log(`Producto con ID ${itemId} no encontrado en el carrito.`);
+        updateCartDisplay();
     }
 }
-  
+
 // Quitar un ítem del carrito
 function quitarItemCarrito(itemId) {
-    let carrito = obtenerCarrito();
-    carrito = carrito.filter((item) => item.id !== itemId);
-
-    guardarCarrito(carrito);
-    console.log(`Producto con ID ${itemId} eliminado del carrito.`);
+    const carrito = obtenerCarrito();
+    const updatedCarrito = carrito.filter((item) => item.id !== itemId);
+    guardarCarrito(updatedCarrito);
+    updateCartDisplay();
 }
+
+// Function to handle quantity changes from product cards
+function modificarCantidadEnProducto(productId, change) {
+    const carrito = obtenerCarrito() || [];
+    const existingItem = carrito.find(item => item.id === productId);
+    
+    if (existingItem) {
+        if (existingItem.quantity + change <= 0) {
+            quitarItemCarrito(productId);
+        } else {
+            modificarCantidadCarrito(productId, existingItem.quantity + change);
+        }
+    } else if (change > 0) {
+        agregarItemCarrito(productId, 1);
+    }
+}
+
+// Función para obtener el carrito actual desde localStorage
+function obtenerCarrito() {
+    return JSON.parse(localStorage.getItem(CARRITO_COMPRAS_KEY));
+}
+  
+// Función para guardar el carrito en localStorage
+function guardarCarrito(carrito) {
+    localStorage.setItem(CARRITO_COMPRAS_KEY, JSON.stringify(carrito));
+}
+
   
 // Mostrar detalles de un ítem específico del carrito
 function mostrarDetalleItemCarrito(itemId) {

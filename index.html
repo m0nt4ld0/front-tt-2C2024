@@ -76,11 +76,24 @@
         </div>
         <div class="cart-items">
             <!-- Cart items will be dynamically added here -->
+            <div id="cartItemsList">
+                <!-- Template for cart items -->
+                <template id="cartItemTemplate">
+                    <div class="cart-item">
+                        <span class="item-name"></span>
+                        <div class="item-quantity">
+                            <button class="quantity-btn minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                </template>
+            </div>
         </div>
         <div class="cart-footer">
             <div class="cart-total">
                 <span>Total:</span>
-                <span class="total-amount">$0.00</span>
+                <span class="total-amount">0</span>
             </div>
             <button class="checkout-button">Finalizar Compra</button>
         </div>
