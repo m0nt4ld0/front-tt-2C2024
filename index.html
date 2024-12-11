@@ -43,6 +43,12 @@
                 src="./icons/icons8-menu-67.png" 
                 class="mainNavHamburger" />
             <ul class="mainNavMenu">
+                <li class="cart-icon">
+                    <button id="cartButton" class="cart-button">
+                        <img src="./icons/icons8-shopping-cart-48.png" alt="Shopping Cart" />
+                        <span class="cart-count">0</span>
+                    </button>
+                </li>
                 <li>
                     <img src="./icons/icons8-home-64.png" />
                     <a href="#destinos">Home</a>
@@ -62,6 +68,23 @@
             </ul>
         </nav>
     </header>
+    <!-- Shopping Cart Panel -->
+    <div id="cartPanel" class="cart-panel">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-amount">$0.00</span>
+            </div>
+            <button class="checkout-button">Finalizar Compra</button>
+        </div>
+    </div>
     <main class="container-fluid">
         
         <!-- Form de búsqueda -->
@@ -131,7 +154,7 @@
                                         Actividades
                                     </label>
                                 </div>
-                                
+                                 
                                 <!-- Form -->
                                 <div class="row g-2 align-items-center">
                                     <div class="col">                                      
@@ -226,7 +249,7 @@
             <footer class="mainFooter">
                 <div class="row">
                     <div class="col container my-5">
-                        <p>©Mariela Montaldo. 2024</p>
+                        <p> Mariela Montaldo. 2024</p>
                         <a href="https://github.com/m0nt4ld0" alt="GitHub"><img src="./icons/icons8-github-50.png"></a>
                         <a href="https://www.linkedin.com/in/mmontaldo/" alt="LinkedIn"><img src="./icons/icons8-linkedin-50.png"></a>
                         <p></p>

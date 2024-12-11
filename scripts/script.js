@@ -32,6 +32,9 @@ async function mainEjercicios() {
     esFormCompleto('contact');
     obtenerListadoProductos();
 
+    // Initialize cart panel functionality
+    initializeCartPanel();
+
     // Eventos de clic para divs de viajes
     const tarjetasProductos = document.getElementsByClassName("tarjeta-producto");
 
@@ -267,6 +270,34 @@ async function obtenerCardsPaisesYcargarFotos() {
  * del carrito. 
  */
 
+// Initialize cart panel functionality
+function initializeCartPanel() {
+    const cartButton = document.getElementById('cartButton');
+    const cartPanel = document.getElementById('cartPanel');
+    const closeCart = document.querySelector('.close-cart');
+
+    if (cartButton && cartPanel && closeCart) {
+        cartButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            cartPanel.classList.add('active');
+        });
+
+        closeCart.addEventListener('click', function() {
+            cartPanel.classList.remove('active');
+        });
+
+        // Close cart when clicking outside
+        document.addEventListener('click', function(event) {
+            if (cartPanel.classList.contains('active') && 
+                !cartPanel.contains(event.target) && 
+                !cartButton.contains(event.target)) {
+                cartPanel.classList.remove('active');
+            }
+        });
+    }
+}
+
 // Agregar un ítem al carrito
 function agregarItemCarrito(item, qty) {
     const carrito = Array.isArray(obtenerCarrito()) ? obtenerCarrito() : [];
@@ -299,4 +330,50 @@ function obtenerCarrito() {
 // Función para guardar el carrito en localStorage
 function guardarCarrito(carrito) {
     localStorage.setItem(CARRITO_COMPRAS_KEY, JSON.stringify(carrito));
+}
+
+  
+// Modificar la cantidad de un ítem específico en el carrito
+function modificarCantidadCarrito(itemId, nuevaCantidad) {
+    const carrito = obtenerCarrito();
+    const item = carrito.find((carritoItem) => carritoItem.id === itemId);
+
+    if (item) {
+        if (nuevaCantidad <= 0) {
+            quitarItemCarrito(itemId);
+        } else {
+            item.quantity = nuevaCantidad;
+            guardarCarrito(carrito);
+            console.log(`Cantidad del producto con ID ${itemId} actualizada a ${nuevaCantidad}.`);
+        }
+    } else {
+        console.log(`Producto con ID ${itemId} no encontrado en el carrito.`);
+    }
+}
+  
+// Quitar un ítem del carrito
+function quitarItemCarrito(itemId) {
+    let carrito = obtenerCarrito();
+    carrito = carrito.filter((item) => item.id !== itemId);
+
+    guardarCarrito(carrito);
+    console.log(`Producto con ID ${itemId} eliminado del carrito.`);
+}
+  
+// Mostrar detalles de un ítem específico del carrito
+function mostrarDetalleItemCarrito(itemId) {
+    const carrito = obtenerCarrito();
+    const item = carrito.find((carritoItem) => carritoItem.id === itemId);
+
+    if (item) {
+        console.log("Detalles del producto:", item);
+    } else {
+        console.log(`Producto con ID ${itemId} no encontrado en el carrito.`);
+    }
+}
+  
+// Mostrar todos los ítems del carrito
+function mostrarItemsCarrito() {
+    const carrito = obtenerCarrito();
+    console.log("Productos en el carrito:", carrito);
 }
