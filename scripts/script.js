@@ -14,6 +14,14 @@ const productos = ["Perú", "México", "Brasil"];
 const GEONAMES_API_KEY = "mmontaldo";
 const UNSPLASH_API_KEY = "SQlNF6a80hwUX5aYFGBV3C3-qo7Bml7IbXvuZgc5ciI";
 
+// Carrito de compras - Constantes para las claves en localStorage y sessionStorage
+const CARRITO_COMPRAS_KEY = "carritoCompras";
+
+// Carrito de compras - Inicializa el carrito en localStorage si no existe
+if (!localStorage.getItem(CARRITO_COMPRAS_KEY)) {
+    localStorage.setItem(CARRITO_COMPRAS_KEY, JSON.stringify([]));
+}
+
 const descripciones = {
     "tarjeta-peru": "Descubre Perú, un país lleno de maravillas naturales y culturales: desde la majestuosa ciudadela de Machu Picchu en los Andes, hasta la vibrante Amazonía y las encantadoras playas del Pacífico, donde cada rincón te invita a vivir una experiencia inolvidable.", 
     "tarjeta-mexico": "México te espera con sus playas paradisíacas, ciudades coloniales llenas de historia, y una cultura vibrante que se refleja en su gastronomía, sus festivales coloridos y su calidez única; un destino donde cada visita se convierte en una aventura inolvidable.", 
@@ -23,6 +31,9 @@ const descripciones = {
 async function mainEjercicios() {
     esFormCompleto('contact');
     obtenerListadoProductos();
+
+    // Initialize cart panel functionality
+    initializeCartPanel();
 
     // Eventos de clic para divs de viajes
     const tarjetasProductos = document.getElementsByClassName("tarjeta-producto");
@@ -35,6 +46,20 @@ async function mainEjercicios() {
     mostrarListadoProductosEnListaDinamica();
     await obtenerDatosAPIyMostrarEnMain();
     await obtenerCardsPaisesYcargarFotos();
+    // Registrar eventos en botones dinámicos
+    document.querySelectorAll('.agrega-carrito-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            const country = event.target.getAttribute('data-product');
+            const action = event.target.getAttribute('data-action') || 'add';
+            
+            if (action === 'add') {
+                agregarItemCarrito(country, 1);
+            } else {
+                agregarItemCarrito(country, -1);
+            }
+        });
+    });
 }
 
 /////////// Condicionales y ciclos /////////// 
@@ -134,10 +159,16 @@ function mostrarListadoProductosEnListaDinamica() {
         if (arrayProductos.hasOwnProperty(p)) {
             console.log("entra if mostrarListadoProductosEnListaDinamica()");
             var producto = arrayProductos[p];
-            var html = `<div class="tarjeta-producto" id="${p}" style="background-image: url('${producto.image}'); ">
+            var html = `<div class="tarjeta-producto" 
+                id="${p}" 
+                style="background-image: url('${producto.image}'); ">
                 <div class="tarjeta-contenido">
                     <h3>${producto.title}</h3>
                     <p>${producto.description}</p>
+                    <div class="cart-controls">
+                        <button class="quantity-btn minus" onclick="modificarCantidadEnProducto('${producto.title}', -1)">-</button>
+                        <button class="quantity-btn plus" onclick="modificarCantidadEnProducto('${producto.title}', 1)">+</button>
+                    </div>
                 </div>
             </div>`;
             grillaProductos.innerHTML += html;
@@ -177,6 +208,26 @@ async function obtenerDatosAPIyMostrarEnMain() {
                 <div class="tarjeta-contenido">
                     <h3>${country.countryName}</h3>
                     <p>${country.countryName}</p>
+                    <p>
+                        <form>
+                            <button 
+                                id="addItem-${country.countryName}" 
+                                class="agrega-carrito-btn"
+                                data-product="${country.countryName}"
+                                data-action="add">+</button>
+                            <input 
+                                id="qtyItem-${country.countryName}" 
+                                value="0" 
+                                type="text"
+                                maxlength="2"
+                                size="1" />
+                            <button 
+                                id="removeItem-${country.countryName}" 
+                                class="agrega-carrito-btn"
+                                data-product="${country.countryName}"
+                                data-action="remove">-</button>
+                        </form>
+                    </p>
                 </div>
             </div>`;
             grillaProductos.innerHTML += html;
@@ -222,28 +273,168 @@ async function obtenerCardsPaisesYcargarFotos() {
  * y sessionStorage para almacenar la información
  * del carrito. 
  */
-function agregarItemCarrito() {
+
+// Initialize cart panel functionality
+function initializeCartPanel() {
+    const cartButton = document.getElementById('cartButton');
+    const cartPanel = document.getElementById('cartPanel');
+    const closeCart = document.querySelector('.close-cart');
     
+    if (cartButton && cartPanel && closeCart) {
+        cartButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            cartPanel.classList.add('active');
+            updateCartDisplay(); // Update cart when opened
+        });
+
+        closeCart.addEventListener('click', function() {
+            cartPanel.classList.remove('active');
+        });
+
+        // Close cart when clicking outside
+        document.addEventListener('click', function(event) {
+            if (cartPanel.classList.contains('active') && 
+                !cartPanel.contains(event.target) && 
+                !cartButton.contains(event.target)) {
+                cartPanel.classList.remove('active');
+            }
+        });
+    }
 }
 
-/* Los productos en el carrito se deben poder
- * visualizar, editar (cambiar la cantidad) y eliminar.
- * 3. La información debe mantenerse después de
- * recargar la página.
-*/
-
-function quitarItemCarrito() {
+// Update the cart display
+function updateCartDisplay() {
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartCountDisplay = document.querySelector('.cart-count');
+    const totalAmountDisplay = document.querySelector('.total-amount');
+    const carrito = obtenerCarrito() || [];
+    const template = document.getElementById('cartItemTemplate');
     
+    // Clear current items except the template
+    while (cartItemsList.children.length > 1) {
+        cartItemsList.removeChild(cartItemsList.lastChild);
+    }
+
+    let total = 0;
+    let totalItems = 0;
+
+    // Add each item to the cart
+    carrito.forEach(item => {
+        const clone = template.content.cloneNode(true);
+        
+        const nameElement = clone.querySelector('.item-name');
+        const quantityElement = clone.querySelector('.quantity');
+        const minusButton = clone.querySelector('.minus');
+        const plusButton = clone.querySelector('.plus');
+
+        nameElement.textContent = item.id;
+        quantityElement.textContent = item.quantity;
+        totalItems += item.quantity;
+        total += item.quantity;
+
+        // Add event listeners for + and - buttons
+        minusButton.addEventListener('click', () => {
+            modificarCantidadCarrito(item.id, item.quantity - 1);
+        });
+
+        plusButton.addEventListener('click', () => {
+            modificarCantidadCarrito(item.id, item.quantity + 1);
+        });
+
+        cartItemsList.appendChild(clone);
+    });
+
+    // Update total and cart count
+    totalAmountDisplay.textContent = total;
+    cartCountDisplay.textContent = totalItems;
 }
 
-function mostrarDetalleItemCarrito() {
+// Agregar un ítem al carrito
+function agregarItemCarrito(item, qty = 1) {
+    const carrito = Array.isArray(obtenerCarrito()) ? obtenerCarrito() : [];
+
+    if (typeof item === "string") {
+        item = { id: item, quantity: qty };
+    }
+
+    const existingItem = carrito.find((carritoItem) => carritoItem.id === item.id);
+
+    if (existingItem) {
+        existingItem.quantity += qty;
+    } else {
+        carrito.push({ id: item.id || item, quantity: qty });
+    }
     
+    guardarCarrito(carrito);
+    updateCartDisplay();
 }
 
+// Modificar la cantidad de un ítem específico en el carrito
+function modificarCantidadCarrito(itemId, nuevaCantidad) {
+    const carrito = obtenerCarrito();
+    const item = carrito.find((carritoItem) => carritoItem.id === itemId);
+
+    if (item) {
+        if (nuevaCantidad <= 0) {
+            quitarItemCarrito(itemId);
+        } else {
+            item.quantity = nuevaCantidad;
+            guardarCarrito(carrito);
+        }
+        updateCartDisplay();
+    }
+}
+
+// Quitar un ítem del carrito
+function quitarItemCarrito(itemId) {
+    const carrito = obtenerCarrito();
+    const updatedCarrito = carrito.filter((item) => item.id !== itemId);
+    guardarCarrito(updatedCarrito);
+    updateCartDisplay();
+}
+
+// Function to handle quantity changes from product cards
+function modificarCantidadEnProducto(productId, change) {
+    const carrito = obtenerCarrito() || [];
+    const existingItem = carrito.find(item => item.id === productId);
+    
+    if (existingItem) {
+        if (existingItem.quantity + change <= 0) {
+            quitarItemCarrito(productId);
+        } else {
+            modificarCantidadCarrito(productId, existingItem.quantity + change);
+        }
+    } else if (change > 0) {
+        agregarItemCarrito(productId, 1);
+    }
+}
+
+// Función para obtener el carrito actual desde localStorage
+function obtenerCarrito() {
+    return JSON.parse(localStorage.getItem(CARRITO_COMPRAS_KEY));
+}
+  
+// Función para guardar el carrito en localStorage
+function guardarCarrito(carrito) {
+    localStorage.setItem(CARRITO_COMPRAS_KEY, JSON.stringify(carrito));
+}
+
+  
+// Mostrar detalles de un ítem específico del carrito
+function mostrarDetalleItemCarrito(itemId) {
+    const carrito = obtenerCarrito();
+    const item = carrito.find((carritoItem) => carritoItem.id === itemId);
+
+    if (item) {
+        console.log("Detalles del producto:", item);
+    } else {
+        console.log(`Producto con ID ${itemId} no encontrado en el carrito.`);
+    }
+}
+  
+// Mostrar todos los ítems del carrito
 function mostrarItemsCarrito() {
-    
-}
-
-function modificarCantidadCarrito(itemId) {
-    
+    const carrito = obtenerCarrito();
+    console.log("Productos en el carrito:", carrito);
 }
