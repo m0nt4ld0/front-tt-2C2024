@@ -399,30 +399,36 @@ async function obtenerDatosAPIyMostrarEnMain() {
 
         const data = await response.json();
         console.log("Datos obtenidos:", data);
+        console.log('Data received from proxy:', data);
         const grillaProductos = document.getElementById('grilla-dinamica-productos');
         grillaProductos.innerHTML = ''; // Clear existing content
         
         // Actualizar el DOM
-        data.geonames.forEach(country => {
-            var html = `<div class="tarjeta-producto" 
-                id="tarjeta-${country.countryName}" 
-                data-title="${country.countryName}"
-                style="background-image: url('./imgs/destinations/sin-imagen.jpg');">
-                <div class="tarjeta-contenido">
-                    <h3>${country.countryName}</h3>
-                    <p>${country.countryName}</p>
-                    <div class="cart-controls">
-                        <button class="quantity-btn minus">-</button>
-                        <span class="quantity-display">0</span>
-                        <button class="quantity-btn plus">+</button>
+        if (data.geonames && Array.isArray(data.geonames)) {
+            data.geonames.forEach(country => {
+                var html = `<div class="tarjeta-producto" 
+                    id="tarjeta-${country.countryName}" 
+                    data-title="${country.countryName}"
+                    style="background-image: url('./imgs/destinations/sin-imagen.jpg');">
+                    <div class="tarjeta-contenido">
+                        <h3>${country.countryName}</h3>
+                        <p>${country.countryName}</p>
+                        <div class="cart-controls">
+                            <button class="quantity-btn minus">-</button>
+                            <span class="quantity-display">0</span>
+                            <button class="quantity-btn plus">+</button>
+                        </div>
                     </div>
-                </div>
-            </div>`;
-            grillaProductos.innerHTML += html;
-        });
+                </div>`;
+                grillaProductos.innerHTML += html;
+            });
 
-        // Setup event listeners for dynamically created product cards
-        setupProductCardEventListeners();
+            // Setup event listeners for dynamically created product cards
+            setupProductCardEventListeners();
+        } else {
+            console.error("No se encontraron datos de geonames.");
+            document.getElementById('destinos').innerHTML = "No se encontraron datos de geonames.";
+        }
 
         return data; // Retorna los datos obtenidos
     } catch (error) {
