@@ -388,7 +388,7 @@ function setupProductCardEventListeners() {
  */
 async function obtenerDatosAPIyMostrarEnMain() {
     console.log("Inicia ejecución obtenerDatosAPIyMostrarEnMain");
-    const apiUrl = `http://api.geonames.org/neighboursJSON?formatted=true&geonameId=2658434&username=${GEONAMES_API_KEY}`;
+    const apiUrl = '/.netlify/functions/proxy';
 
     try {
         const response = await fetch(apiUrl);
