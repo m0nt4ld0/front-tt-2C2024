@@ -161,19 +161,217 @@ function mostrarListadoProductosEnListaDinamica() {
             var producto = arrayProductos[p];
             var html = `<div class="tarjeta-producto" 
                 id="${p}" 
+                data-title="${producto.title}"
                 style="background-image: url('${producto.image}'); ">
                 <div class="tarjeta-contenido">
                     <h3>${producto.title}</h3>
                     <p>${producto.description}</p>
                     <div class="cart-controls">
-                        <button class="quantity-btn minus" onclick="modificarCantidadEnProducto('${producto.title}', -1)">-</button>
-                        <button class="quantity-btn plus" onclick="modificarCantidadEnProducto('${producto.title}', 1)">+</button>
+                        <button class="quantity-btn minus">-</button>
+                        <span class="quantity-display">0</span>
+                        <button class="quantity-btn plus">+</button>
                     </div>
                 </div>
             </div>`;
             grillaProductos.innerHTML += html;
         }
     }
+
+    // Add event listeners after rendering
+    setupProductCardEventListeners();
+}
+
+// Setup event listeners for dynamically created product cards
+function setupProductCardEventListeners() {
+    // Get all product cards from both grids
+    const grillaProductos = document.getElementById('grilla-productos');
+    const grillaDinamica = document.getElementById('grilla-dinamica-productos');
+    
+    // Function to handle click events
+    function handleCardClick(event) {
+        const productCard = event.target.closest('.tarjeta-producto');
+        if (!productCard) return;
+
+        const productTitle = productCard.dataset.title;
+        const quantityDisplay = productCard.querySelector('.quantity-display');
+        
+        if (event.target.classList.contains('plus')) {
+            event.preventDefault(); // Prevent any default button behavior
+            event.stopPropagation(); // Stop event from bubbling
+            
+            if (quantityDisplay) {
+                const currentQuantity = parseInt(quantityDisplay.textContent, 10) || 0;
+                const newQuantity = currentQuantity + 1;
+                agregarItemCarrito(productTitle, 1);
+                quantityDisplay.textContent = newQuantity;
+            }
+        } else if (event.target.classList.contains('minus')) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (quantityDisplay) {
+                const currentQuantity = parseInt(quantityDisplay.textContent, 10) || 0;
+                if (currentQuantity > 0) {
+                    const newQuantity = currentQuantity - 1;
+                    if (newQuantity === 0) {
+                        quitarItemCarrito(productTitle);
+                    } else {
+                        modificarCantidadCarrito(productTitle, newQuantity);
+                    }
+                    quantityDisplay.textContent = newQuantity;
+                }
+            }
+        }
+    }
+
+    // Remove any existing event listeners
+    if (grillaProductos) {
+        const oldGrilla = grillaProductos.cloneNode(true);
+        grillaProductos.parentNode.replaceChild(oldGrilla, grillaProductos);
+        oldGrilla.addEventListener('click', handleCardClick);
+    }
+
+    if (grillaDinamica) {
+        const oldGrillaDinamica = grillaDinamica.cloneNode(true);
+        grillaDinamica.parentNode.replaceChild(oldGrillaDinamica, grillaDinamica);
+        oldGrillaDinamica.addEventListener('click', handleCardClick);
+    }
+
+    // Initial update of quantities
+    updateProductQuantityDisplays();
+}
+
+// Update quantity displays for all products
+function updateProductQuantityDisplays() {
+    const carrito = obtenerCarrito() || [];
+    
+    // Update all product cards
+    document.querySelectorAll('.tarjeta-producto').forEach(card => {
+        const productTitle = card.dataset.title;
+        const quantityDisplay = card.querySelector('.quantity-display');
+        if (quantityDisplay && productTitle) {
+            const item = carrito.find(item => item.id === productTitle);
+            quantityDisplay.textContent = item ? item.quantity : 0;
+        }
+    });
+}
+
+// Update the cart display
+function updateCartDisplay() {
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartCountDisplay = document.querySelector('.cart-count');
+    const totalAmountDisplay = document.querySelector('.total-amount');
+    const carrito = obtenerCarrito() || [];
+    const template = document.getElementById('cartItemTemplate');
+    
+    // Clear current items except the template
+    while (cartItemsList.children.length > 1) {
+        cartItemsList.removeChild(cartItemsList.lastChild);
+    }
+
+    let total = 0;
+    let totalItems = 0;
+
+    // Add each item to the cart
+    carrito.forEach(item => {
+        const clone = template.content.cloneNode(true);
+        
+        const nameElement = clone.querySelector('.item-name');
+        const quantityElement = clone.querySelector('.quantity');
+        const minusButton = clone.querySelector('.minus');
+        const plusButton = clone.querySelector('.plus');
+
+        nameElement.textContent = item.id;
+        quantityElement.textContent = item.quantity;
+        totalItems += item.quantity;
+        total += item.quantity;
+
+        // Add event listeners for + and - buttons
+        minusButton.addEventListener('click', () => {
+            const newQuantity = Math.max(item.quantity - 1, 0);
+            if (newQuantity === 0) {
+                quitarItemCarrito(item.id);
+            } else {
+                modificarCantidadCarrito(item.id, newQuantity);
+            }
+            updateProductQuantityDisplays();
+            updateCartDisplay();
+        });
+
+        plusButton.addEventListener('click', () => {
+            modificarCantidadCarrito(item.id, item.quantity + 1);
+            updateProductQuantityDisplays();
+            updateCartDisplay();
+        });
+
+        cartItemsList.appendChild(clone);
+    });
+
+    // Update total and cart count
+    totalAmountDisplay.textContent = total;
+    cartCountDisplay.textContent = totalItems;
+}
+
+function setupProductCardEventListeners() {
+    // Get all product cards from both grids
+    const grillaProductos = document.getElementById('grilla-productos');
+    const grillaDinamica = document.getElementById('grilla-dinamica-productos');
+    
+    // Function to handle click events
+    function handleCardClick(event) {
+        const productCard = event.target.closest('.tarjeta-producto');
+        if (!productCard) return;
+
+        const productTitle = productCard.dataset.title;
+        const quantityDisplay = productCard.querySelector('.quantity-display');
+        
+        if (event.target.classList.contains('plus')) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (quantityDisplay) {
+                const currentQuantity = parseInt(quantityDisplay.textContent, 10) || 0;
+                const newQuantity = currentQuantity + 1;
+                agregarItemCarrito(productTitle, 1);
+                updateCartDisplay();
+                updateProductQuantityDisplays();
+            }
+        } else if (event.target.classList.contains('minus')) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (quantityDisplay) {
+                const currentQuantity = parseInt(quantityDisplay.textContent, 10) || 0;
+                if (currentQuantity > 0) {
+                    const newQuantity = currentQuantity - 1;
+                    if (newQuantity === 0) {
+                        quitarItemCarrito(productTitle);
+                    } else {
+                        modificarCantidadCarrito(productTitle, newQuantity);
+                    }
+                    updateCartDisplay();
+                    updateProductQuantityDisplays();
+                }
+            }
+        }
+    }
+
+    // Remove any existing event listeners
+    if (grillaProductos) {
+        const oldGrilla = grillaProductos.cloneNode(true);
+        grillaProductos.parentNode.replaceChild(oldGrilla, grillaProductos);
+        oldGrilla.addEventListener('click', handleCardClick);
+    }
+
+    if (grillaDinamica) {
+        const oldGrillaDinamica = grillaDinamica.cloneNode(true);
+        grillaDinamica.parentNode.replaceChild(oldGrillaDinamica, grillaDinamica);
+        oldGrillaDinamica.addEventListener('click', handleCardClick);
+    }
+
+    // Initial update of quantities
+    updateProductQuantityDisplays();
+    updateCartDisplay();
 }
 
 /////////// Asincronia y consumo de API Rest /////////// 
@@ -202,36 +400,29 @@ async function obtenerDatosAPIyMostrarEnMain() {
         const data = await response.json();
         console.log("Datos obtenidos:", data);
         const grillaProductos = document.getElementById('grilla-dinamica-productos');
+        grillaProductos.innerHTML = ''; // Clear existing content
+        
         // Actualizar el DOM
         data.geonames.forEach(country => {
-            var html = `<div class="tarjeta-producto" id="tarjeta-${country.countryName}" style="background-image: url('./imgs/destinations/sin-imagen.jpg'); ">
+            var html = `<div class="tarjeta-producto" 
+                id="tarjeta-${country.countryName}" 
+                data-title="${country.countryName}"
+                style="background-image: url('./imgs/destinations/sin-imagen.jpg');">
                 <div class="tarjeta-contenido">
                     <h3>${country.countryName}</h3>
                     <p>${country.countryName}</p>
-                    <p>
-                        <form>
-                            <button 
-                                id="addItem-${country.countryName}" 
-                                class="agrega-carrito-btn"
-                                data-product="${country.countryName}"
-                                data-action="add">+</button>
-                            <input 
-                                id="qtyItem-${country.countryName}" 
-                                value="0" 
-                                type="text"
-                                maxlength="2"
-                                size="1" />
-                            <button 
-                                id="removeItem-${country.countryName}" 
-                                class="agrega-carrito-btn"
-                                data-product="${country.countryName}"
-                                data-action="remove">-</button>
-                        </form>
-                    </p>
+                    <div class="cart-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <span class="quantity-display">0</span>
+                        <button class="quantity-btn plus">+</button>
+                    </div>
                 </div>
             </div>`;
             grillaProductos.innerHTML += html;
         });
+
+        // Setup event listeners for dynamically created product cards
+        setupProductCardEventListeners();
 
         return data; // Retorna los datos obtenidos
     } catch (error) {
@@ -335,11 +526,20 @@ function updateCartDisplay() {
 
         // Add event listeners for + and - buttons
         minusButton.addEventListener('click', () => {
-            modificarCantidadCarrito(item.id, item.quantity - 1);
+            const newQuantity = Math.max(item.quantity - 1, 0);
+            if (newQuantity === 0) {
+                quitarItemCarrito(item.id);
+            } else {
+                modificarCantidadCarrito(item.id, newQuantity);
+            }
+            updateProductQuantityDisplays();
+            updateCartDisplay();
         });
 
         plusButton.addEventListener('click', () => {
             modificarCantidadCarrito(item.id, item.quantity + 1);
+            updateProductQuantityDisplays();
+            updateCartDisplay();
         });
 
         cartItemsList.appendChild(clone);
@@ -348,6 +548,9 @@ function updateCartDisplay() {
     // Update total and cart count
     totalAmountDisplay.textContent = total;
     cartCountDisplay.textContent = totalItems;
+
+    // Update product quantity displays
+    updateProductQuantityDisplays();
 }
 
 // Agregar un ítem al carrito
@@ -408,6 +611,9 @@ function modificarCantidadEnProducto(productId, change) {
     } else if (change > 0) {
         agregarItemCarrito(productId, 1);
     }
+
+    // Update quantity displays
+    updateProductQuantityDisplays();
 }
 
 // Función para obtener el carrito actual desde localStorage

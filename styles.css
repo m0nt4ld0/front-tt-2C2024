@@ -310,6 +310,19 @@ main.container-fluid {
     background-color: var(--violeta-oscuro);
 }
 
+.cart-controls .quantity-display {
+    width: 40px;
+    text-align: center;
+    border: 1px solid var(--violeta-claro);
+    background-color: white;
+    color: var(--violeta-oscuro);
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 0 10px;
+}
+
 .tarjeta-contenido h3 {
     margin: 0;
     font-size: 1.5em;
