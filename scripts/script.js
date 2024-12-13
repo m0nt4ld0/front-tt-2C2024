@@ -245,39 +245,133 @@ function setupProductCardEventListeners() {
 function updateProductQuantityDisplays() {
     const carrito = obtenerCarrito() || [];
     
-    carrito.forEach(item => {
-        const productCard = document.querySelector(`.tarjeta-producto[data-title="${item.id}"]`);
-        if (productCard) {
-            const quantityDisplay = productCard.querySelector('.quantity-display');
-            if (quantityDisplay) {
-                quantityDisplay.textContent = item.quantity;
-            }
+    // Update all product cards
+    document.querySelectorAll('.tarjeta-producto').forEach(card => {
+        const productTitle = card.dataset.title;
+        const quantityDisplay = card.querySelector('.quantity-display');
+        if (quantityDisplay && productTitle) {
+            const item = carrito.find(item => item.id === productTitle);
+            quantityDisplay.textContent = item ? item.quantity : 0;
         }
     });
 }
 
-// Modify the existing function to update quantity display
-function modificarCantidadEnProducto(productId, change) {
+// Update the cart display
+function updateCartDisplay() {
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartCountDisplay = document.querySelector('.cart-count');
+    const totalAmountDisplay = document.querySelector('.total-amount');
     const carrito = obtenerCarrito() || [];
-
-    if (typeof productId === "string") {
-        productId = { id: productId, quantity: change };
+    const template = document.getElementById('cartItemTemplate');
+    
+    // Clear current items except the template
+    while (cartItemsList.children.length > 1) {
+        cartItemsList.removeChild(cartItemsList.lastChild);
     }
 
-    const existingItem = carrito.find((carritoItem) => carritoItem.id === productId.id);
+    let total = 0;
+    let totalItems = 0;
 
-    if (existingItem) {
-        if (existingItem.quantity + change <= 0) {
-            quitarItemCarrito(productId.id);
-        } else {
-            modificarCantidadCarrito(productId.id, existingItem.quantity + change);
+    // Add each item to the cart
+    carrito.forEach(item => {
+        const clone = template.content.cloneNode(true);
+        
+        const nameElement = clone.querySelector('.item-name');
+        const quantityElement = clone.querySelector('.quantity');
+        const minusButton = clone.querySelector('.minus');
+        const plusButton = clone.querySelector('.plus');
+
+        nameElement.textContent = item.id;
+        quantityElement.textContent = item.quantity;
+        totalItems += item.quantity;
+        total += item.quantity;
+
+        // Add event listeners for + and - buttons
+        minusButton.addEventListener('click', () => {
+            const newQuantity = Math.max(item.quantity - 1, 0);
+            if (newQuantity === 0) {
+                quitarItemCarrito(item.id);
+            } else {
+                modificarCantidadCarrito(item.id, newQuantity);
+            }
+            updateProductQuantityDisplays();
+            updateCartDisplay();
+        });
+
+        plusButton.addEventListener('click', () => {
+            modificarCantidadCarrito(item.id, item.quantity + 1);
+            updateProductQuantityDisplays();
+            updateCartDisplay();
+        });
+
+        cartItemsList.appendChild(clone);
+    });
+
+    // Update total and cart count
+    totalAmountDisplay.textContent = total;
+    cartCountDisplay.textContent = totalItems;
+}
+
+function setupProductCardEventListeners() {
+    // Get all product cards from both grids
+    const grillaProductos = document.getElementById('grilla-productos');
+    const grillaDinamica = document.getElementById('grilla-dinamica-productos');
+    
+    // Function to handle click events
+    function handleCardClick(event) {
+        const productCard = event.target.closest('.tarjeta-producto');
+        if (!productCard) return;
+
+        const productTitle = productCard.dataset.title;
+        const quantityDisplay = productCard.querySelector('.quantity-display');
+        
+        if (event.target.classList.contains('plus')) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (quantityDisplay) {
+                const currentQuantity = parseInt(quantityDisplay.textContent, 10) || 0;
+                const newQuantity = currentQuantity + 1;
+                agregarItemCarrito(productTitle, 1);
+                updateCartDisplay();
+                updateProductQuantityDisplays();
+            }
+        } else if (event.target.classList.contains('minus')) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (quantityDisplay) {
+                const currentQuantity = parseInt(quantityDisplay.textContent, 10) || 0;
+                if (currentQuantity > 0) {
+                    const newQuantity = currentQuantity - 1;
+                    if (newQuantity === 0) {
+                        quitarItemCarrito(productTitle);
+                    } else {
+                        modificarCantidadCarrito(productTitle, newQuantity);
+                    }
+                    updateCartDisplay();
+                    updateProductQuantityDisplays();
+                }
+            }
         }
-    } else if (change > 0) {
-        agregarItemCarrito(productId.id, 1);
     }
 
-    // Update quantity displays
+    // Remove any existing event listeners
+    if (grillaProductos) {
+        const oldGrilla = grillaProductos.cloneNode(true);
+        grillaProductos.parentNode.replaceChild(oldGrilla, grillaProductos);
+        oldGrilla.addEventListener('click', handleCardClick);
+    }
+
+    if (grillaDinamica) {
+        const oldGrillaDinamica = grillaDinamica.cloneNode(true);
+        grillaDinamica.parentNode.replaceChild(oldGrillaDinamica, grillaDinamica);
+        oldGrillaDinamica.addEventListener('click', handleCardClick);
+    }
+
+    // Initial update of quantities
     updateProductQuantityDisplays();
+    updateCartDisplay();
 }
 
 /////////// Asincronia y consumo de API Rest /////////// 
@@ -432,13 +526,20 @@ function updateCartDisplay() {
 
         // Add event listeners for + and - buttons
         minusButton.addEventListener('click', () => {
-            modificarCantidadCarrito(item.id, item.quantity - 1);
+            const newQuantity = Math.max(item.quantity - 1, 0);
+            if (newQuantity === 0) {
+                quitarItemCarrito(item.id);
+            } else {
+                modificarCantidadCarrito(item.id, newQuantity);
+            }
             updateProductQuantityDisplays();
+            updateCartDisplay();
         });
 
         plusButton.addEventListener('click', () => {
             modificarCantidadCarrito(item.id, item.quantity + 1);
             updateProductQuantityDisplays();
+            updateCartDisplay();
         });
 
         cartItemsList.appendChild(clone);
