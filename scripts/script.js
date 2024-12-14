@@ -3,16 +3,17 @@
  * @description Trabajo práctico para el curso Javascript Frontend de Talento Tech (segundo cuatrimestre de 2024).
  * @author      Mariela Montaldo (github.com/m0nt4ld0)
  * @date        2024-11-13
- * @version     1.0.0
- * @updated     2024-11-13
+ * @version     1.1.0
+ * @updated     2024-12-14
  * 
  * @license     MIT
  *
  */
 
+let GEONAMES_API_KEY;
+let UNSPLASH_API_KEY;
+
 const productos = ["Perú", "México", "Brasil"];
-const GEONAMES_API_KEY = "mmontaldo";
-const UNSPLASH_API_KEY = "SQlNF6a80hwUX5aYFGBV3C3-qo7Bml7IbXvuZgc5ciI";
 
 // Carrito de compras - Constantes para las claves en localStorage y sessionStorage
 const CARRITO_COMPRAS_KEY = "carritoCompras";
@@ -29,6 +30,7 @@ const descripciones = {
 };
 
 async function mainEjercicios() {
+    await fetchEnvVariables();
     esFormCompleto('contact');
     obtenerListadoProductos();
 
@@ -60,6 +62,35 @@ async function mainEjercicios() {
             }
         });
     });
+
+    // Add event listener to the 'Finalizar Compra' button
+    document.querySelector('.checkout-button').addEventListener('click', function() {
+        // Close the shopping cart
+        document.getElementById('cartPanel').classList.remove('active');
+        
+        // Show the Bootstrap modal
+        var congratsModal = new bootstrap.Modal(document.getElementById('congratsModal'));
+        congratsModal.show();
+        
+        // Redirect to homepage after 3 seconds
+        setTimeout(function() {
+            window.location.href = '/';
+        }, 3000);
+    });
+}
+
+async function fetchEnvVariables() {
+    try {
+        const response = await fetch('/.netlify/functions/getEnv');
+        const envVars = await response.json();
+        GEONAMES_API_KEY = envVars.GEONAMES_API_KEY;
+        UNSPLASH_API_KEY = envVars.UNSPLASH_API_KEY;
+
+        console.log('GEONAMES_API_KEY:', GEONAMES_API_KEY);
+        console.log('UNSPLASH_API_KEY:', UNSPLASH_API_KEY);
+    } catch (error) {
+        console.error('Error fetching environment variables:', error);
+    }
 }
 
 /////////// Condicionales y ciclos /////////// 

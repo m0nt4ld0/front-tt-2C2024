@@ -51,7 +51,7 @@
                 </li>
                 <li>
                     <img src="./icons/icons8-home-64.png" />
-                    <a href="#destinos">Home</a>
+                    <a href="#top">Home</a>
                 </li>
                 <li>
                     <img src="./icons/icons8-plane-64.png" />
@@ -95,8 +95,22 @@
                 <span>Total:</span>
                 <span class="total-amount">0</span>
             </div>
-            <button class="checkout-button">Finalizar Compra</button>
+            <button class="checkout-button" data-bs-toggle="modal" data-bs-target="#congratsModal">Finalizar Compra</button>
         </div>
+    </div>
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="congratsModal" tabindex="-1" aria-labelledby="congratsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="congratsModalLabel">¡Felicitaciones!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Tu compra ha sido finalizada con éxito. Serás redirigido a la página principal en breve.
+          </div>
+        </div>
+      </div>
     </div>
     <main class="container-fluid">
         
@@ -247,7 +261,7 @@
                 class="container-fluid" 
                 id="destinos">
                 <h2 
-                    class="text-start">Descubre los destinos que tenemos para tí</h2>
+                    class="text-start mt-4">Descubre los destinos que tenemos para tí</h2>
                 <div 
                     class="grilla-productos" 
                     id="grilla-productos">
@@ -294,7 +308,7 @@
                     <!-- Form de contacto -->
                     <div class="col mx-3">
                         <div class="container">
-                            <h4>¿No encontraste el destino que buscabas? ¡Escribinos!</h4>
+                            <h4 class="h5 mt-3">¿No encontraste el destino que buscabas? ¡Escribinos!</h4>
                             <form id="contact" action="https://formspree.io/f/mbljyjwe" method="POST">
                                 <div class="row">
                                     <div class="col mb-3">
