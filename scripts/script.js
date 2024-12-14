@@ -10,11 +10,10 @@
  *
  */
 
-const productos = ["Perú", "México", "Brasil"];
-const GEONAMES_API_KEY = process.env.GEONAMES_API_KEY;
-const UNSPLASH_API_KEY = process.env.UNSPLASH_API_KEY;
+let GEONAMES_API_KEY;
+let UNSPLASH_API_KEY;
 
-require('dotenv').config();
+const productos = ["Perú", "México", "Brasil"];
 
 // Carrito de compras - Constantes para las claves en localStorage y sessionStorage
 const CARRITO_COMPRAS_KEY = "carritoCompras";
@@ -31,6 +30,7 @@ const descripciones = {
 };
 
 async function mainEjercicios() {
+    await fetchEnvVariables();
     esFormCompleto('contact');
     obtenerListadoProductos();
 
@@ -62,6 +62,20 @@ async function mainEjercicios() {
             }
         });
     });
+}
+
+async function fetchEnvVariables() {
+    try {
+        const response = await fetch('/.netlify/functions/getEnv');
+        const envVars = await response.json();
+        GEONAMES_API_KEY = envVars.GEONAMES_API_KEY;
+        UNSPLASH_API_KEY = envVars.UNSPLASH_API_KEY;
+
+        console.log('GEONAMES_API_KEY:', GEONAMES_API_KEY);
+        console.log('UNSPLASH_API_KEY:', UNSPLASH_API_KEY);
+    } catch (error) {
+        console.error('Error fetching environment variables:', error);
+    }
 }
 
 /////////// Condicionales y ciclos /////////// 
