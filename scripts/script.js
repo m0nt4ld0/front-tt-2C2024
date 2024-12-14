@@ -3,8 +3,8 @@
  * @description Trabajo práctico para el curso Javascript Frontend de Talento Tech (segundo cuatrimestre de 2024).
  * @author      Mariela Montaldo (github.com/m0nt4ld0)
  * @date        2024-11-13
- * @version     1.0.0
- * @updated     2024-11-13
+ * @version     1.1.0
+ * @updated     2024-12-14
  * 
  * @license     MIT
  *
@@ -61,6 +61,21 @@ async function mainEjercicios() {
                 agregarItemCarrito(country, -1);
             }
         });
+    });
+
+    // Add event listener to the 'Finalizar Compra' button
+    document.querySelector('.checkout-button').addEventListener('click', function() {
+        // Close the shopping cart
+        document.getElementById('cartPanel').classList.remove('active');
+        
+        // Show the Bootstrap modal
+        var congratsModal = new bootstrap.Modal(document.getElementById('congratsModal'));
+        congratsModal.show();
+        
+        // Redirect to homepage after 3 seconds
+        setTimeout(function() {
+            window.location.href = '/';
+        }, 3000);
     });
 }
 

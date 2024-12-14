@@ -95,8 +95,22 @@
                 <span>Total:</span>
                 <span class="total-amount">0</span>
             </div>
-            <button class="checkout-button">Finalizar Compra</button>
+            <button class="checkout-button" data-bs-toggle="modal" data-bs-target="#congratsModal">Finalizar Compra</button>
         </div>
+    </div>
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="congratsModal" tabindex="-1" aria-labelledby="congratsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="congratsModalLabel">¡Felicitaciones!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Tu compra ha sido finalizada con éxito. Serás redirigido a la página principal en breve.
+          </div>
+        </div>
+      </div>
     </div>
     <main class="container-fluid">
         
