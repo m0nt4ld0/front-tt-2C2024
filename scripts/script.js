@@ -11,8 +11,10 @@
  */
 
 const productos = ["Perú", "México", "Brasil"];
-const GEONAMES_API_KEY = "mmontaldo";
-const UNSPLASH_API_KEY = "SQlNF6a80hwUX5aYFGBV3C3-qo7Bml7IbXvuZgc5ciI";
+const GEONAMES_API_KEY = process.env.GEONAMES_API_KEY;
+const UNSPLASH_API_KEY = process.env.UNSPLASH_API_KEY;
+
+require('dotenv').config();
 
 // Carrito de compras - Constantes para las claves en localStorage y sessionStorage
 const CARRITO_COMPRAS_KEY = "carritoCompras";
